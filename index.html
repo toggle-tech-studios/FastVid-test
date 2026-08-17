@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FastVid - Custom Backend Downloader</title>
+  <title>FastVid - YouTube Downloader</title>
   <style>
     * {
       box-sizing: border-box;
@@ -109,7 +109,6 @@
       margin-top: 12px;
     }
 
-    /* Progress Bar CSS */
     .progress-wrapper {
       margin-top: 20px;
       text-align: center;
@@ -154,7 +153,7 @@
 
   <div class="card">
     <div class="title">FastVid</div>
-    <div class="subtitle">Powered by Custom Cloud Backend</div>
+    <div class="subtitle">Download YouTube Videos (MP4) & Music (MP3)</div>
 
     <div class="input-group">
       <input type="text" id="videoUrl" placeholder="Paste YouTube link here..." autocomplete="off">
@@ -174,7 +173,7 @@
     </div>
 
     <div id="progressWrapper" class="progress-wrapper" style="display: none;">
-      <div id="progressLabel">Connecting to your Render server...</div>
+      <div id="progressLabel">Connecting to server...</div>
       <div class="progress-container">
         <div id="pBar" class="progress-bar"></div>
         <div id="pText" class="progress-text">0%</div>
@@ -185,12 +184,6 @@
   </div>
 
   <script>
-    // ==========================================
-    // ⚠️ REPLACE THIS WITH YOUR RENDER.COM URL
-    // ==========================================
-    const BACKEND_URL = 'https://fastvid-backend-rhaq.onrender.com/';
-    // ==========================================
-
     function updateQualityOptions() {
       const type = document.getElementById('mediaType').value;
       const qSelect = document.getElementById('qualitySelect');
@@ -198,30 +191,33 @@
       
       if (type === 'mp4') {
         const options = [
-          { val: '1080', text: '1080p (FHD)' },
           { val: '720', text: '720p (HD)' },
-          { val: '480', text: '480p (SD)' },
-          { val: '360', text: '360p (Low)' }
+          { val: '360', text: '360p (Fast)' },
+          { val: '1080', text: '1080p (FHD)' }
         ];
         options.forEach(opt => qSelect.options.add(new Option(opt.text, opt.val)));
         qSelect.value = '720'; 
       } else {
         const options = [
-          { val: 'mp3', text: 'Audio (MP3)' } // yt-dlp backend handles audio extraction
+          { val: '128', text: '128 kbps (Normal)' },
+          { val: '192', text: '192 kbps (Good)' },
+          { val: '320', text: '320 kbps (Best)' }
         ];
         options.forEach(opt => qSelect.options.add(new Option(opt.text, opt.val)));
+        qSelect.value = '128'; 
       }
     }
     
     window.onload = updateQualityOptions;
 
-    // --- Loading Animation ---
     let progressTimer = null;
     let currentP = 0;
+    let targetP = 0;
 
     function startProgressEngine() {
       clearInterval(progressTimer);
       currentP = 0;
+      targetP = 15;
       
       const pBar = document.getElementById('pBar');
       const pText = document.getElementById('pText');
@@ -229,23 +225,22 @@
       pText.innerText = '0%';
 
       progressTimer = setInterval(() => {
-        if (currentP < 95) {
-          currentP += Math.floor(Math.random() * 4) + 1;
-          if (currentP > 95) currentP = 95; // Stop at 95% until server replies
+        if (currentP < targetP) {
+          currentP += Math.floor(Math.random() * 3) + 1;
+          if (currentP > targetP) currentP = targetP;
+        } else if (currentP < 95 && targetP > 0) {
+          if (Math.random() < 0.1) currentP += 1;
         }
+
         pBar.style.width = currentP + '%';
         pText.innerText = currentP + '%';
-      }, 150);
+      }, 80);
     }
 
-    function completeProgressEngine() {
+    function stopProgressEngine() {
       clearInterval(progressTimer);
-      document.getElementById('pBar').style.width = '100%';
-      document.getElementById('pText').innerText = '100%';
-      document.getElementById('progressLabel').innerText = 'File Ready!';
     }
 
-    // --- Download Logic ---
     function extractVideoID(url) {
       if (!url) return null;
       const regExp = /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|shorts\/|watch\?.+&v=))([\w-]{11})/;
@@ -253,14 +248,72 @@
       return match ? match[1] : null;
     }
 
+    const apiKey = '436b34b772mshf51742179240f03p1cdd04jsnac029a1c4428';
+    const apiHost = 'youtube-mp4-mp3-downloader.p.rapidapi.com';
+
     function triggerDirectDownload(fileUrl, mediaType) {
       const ext = mediaType === 'mp3' ? 'mp3' : 'mp4';
       const a = document.createElement('a');
       a.href = fileUrl;
-      a.download = `fastvid_download.${ext}`;
+      a.download = `download.${ext}`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
+    }
+
+    function finishDownload(finalUrl, mediaType, submitBtn, statusDiv) {
+      targetP = 100;
+      document.getElementById('progressLabel').innerText = 'File Ready!';
+      
+      setTimeout(() => {
+        stopProgressEngine();
+        document.getElementById('progressWrapper').style.display = 'none';
+        
+        statusDiv.innerHTML = `
+          <a href="${finalUrl}" class="download-btn" target="_blank" rel="noopener noreferrer">
+            ⬇️ Click to Download ${mediaType === 'mp3' ? 'MP3' : 'MP4'}
+          </a>
+        `;
+        triggerDirectDownload(finalUrl, mediaType);
+        submitBtn.disabled = false;
+      }, 600);
+    }
+
+    async function checkProgress(progressId, mediaType, statusDiv, submitBtn) {
+      const progressUrl = `https://${apiHost}/api/v1/progress?id=${progressId}`;
+
+      try {
+        const response = await fetch(progressUrl, {
+          headers: { 'x-rapidapi-key': apiKey, 'x-rapidapi-host': apiHost }
+        });
+
+        const data = await response.json();
+
+        if (data.downloadUrl || data.url || data.link) {
+          const finalUrl = data.downloadUrl || data.url || data.link;
+          finishDownload(finalUrl, mediaType, submitBtn, statusDiv);
+          return;
+        }
+
+        if (data.progress !== undefined && data.progress < 100) {
+          targetP = Math.round(data.progress);
+          document.getElementById('progressLabel').innerText = 'Converting file...';
+          setTimeout(() => checkProgress(progressId, mediaType, statusDiv, submitBtn), 2000);
+        } else if (data.success === 0 || data.error) {
+          stopProgressEngine();
+          document.getElementById('progressWrapper').style.display = 'none';
+          statusDiv.innerHTML = `<span style="color: #ef4444;">Error: ${data.message || 'Conversion failed.'}</span>`;
+          submitBtn.disabled = false;
+        } else {
+          document.getElementById('progressLabel').innerText = 'Finalizing stream...';
+          setTimeout(() => checkProgress(progressId, mediaType, statusDiv, submitBtn), 2000);
+        }
+      } catch (err) {
+        stopProgressEngine();
+        document.getElementById('progressWrapper').style.display = 'none';
+        statusDiv.innerHTML = '<span style="color: #ef4444;">Error checking progress.</span>';
+        submitBtn.disabled = false;
+      }
     }
 
     async function startDownload() {
@@ -275,55 +328,57 @@
         return;
       }
 
-      if (!extractVideoID(urlInput)) {
-        statusDiv.innerHTML = '<span style="color: #ef4444;">Invalid YouTube link format.</span>';
-        return;
-      }
-
-      // Check if user forgot to change the backend URL
-      if (BACKEND_URL.includes("YOUR_RENDER_APP_NAME")) {
-        statusDiv.innerHTML = '<span style="color: #ef4444;">Configuration Error: Please update the BACKEND_URL in your HTML code with your actual Render link.</span>';
+      const videoId = extractVideoID(urlInput);
+      if (!videoId) {
+        statusDiv.innerHTML = '<span style="color: #ef4444;">Invalid YouTube link.</span>';
         return;
       }
 
       statusDiv.innerHTML = '';
       submitBtn.disabled = true;
       document.getElementById('progressWrapper').style.display = 'block';
-      document.getElementById('progressLabel').innerText = 'Extracting stream via custom server...';
+      document.getElementById('progressLabel').innerText = 'Contacting server...';
       
       startProgressEngine();
 
-      // Hit your own custom backend
-      const targetUrl = `${BACKEND_URL}/download?url=${encodeURIComponent(urlInput)}&format=${qualityValue}`;
+      let apiFormat = mediaType === 'mp4' ? qualityValue : 'mp3';
+      let apiAudioQuality = mediaType === 'mp4' ? '128' : qualityValue;
+
+      const initialUrl = `https://${apiHost}/api/v1/download?format=${apiFormat}&id=${videoId}&audioQuality=${apiAudioQuality}&addInfo=false&allowExtendedDuration=false`;
 
       try {
-        const response = await fetch(targetUrl);
+        const response = await fetch(initialUrl, {
+          method: 'GET',
+          headers: { 'x-rapidapi-key': apiKey, 'x-rapidapi-host': apiHost }
+        });
+
         const data = await response.json();
 
-        if (data.success && data.downloadUrl) {
-          completeProgressEngine();
-          
-          setTimeout(() => {
-            document.getElementById('progressWrapper').style.display = 'none';
-            statusDiv.innerHTML = `
-              <a href="${data.downloadUrl}" class="download-btn" target="_blank" rel="noopener noreferrer">
-                ⬇️ Click to Download ${mediaType === 'mp3' ? 'MP3' : 'MP4'}
-              </a>
-            `;
-            triggerDirectDownload(data.downloadUrl, mediaType);
-            submitBtn.disabled = false;
-          }, 600);
-          
-        } else {
-          clearInterval(progressTimer);
+        if (data.downloadUrl || data.url || data.link) {
+          const finalUrl = data.downloadUrl || data.url || data.link;
+          finishDownload(finalUrl, mediaType, submitBtn, statusDiv);
+          return;
+        }
+
+        const progressId = data.id || data.progressId || data.taskId;
+        if (progressId) {
+          targetP = 30;
+          checkProgress(progressId, mediaType, statusDiv, submitBtn);
+        } else if (data.message) {
+          stopProgressEngine();
           document.getElementById('progressWrapper').style.display = 'none';
-          statusDiv.innerHTML = `<span style="color: #ef4444;">Server Error: ${data.error || 'Failed to extract link.'}</span>`;
+          statusDiv.innerHTML = `<span style="color: #ef4444;">${data.message}</span>`;
+          submitBtn.disabled = false;
+        } else {
+          stopProgressEngine();
+          document.getElementById('progressWrapper').style.display = 'none';
+          statusDiv.innerHTML = `<span style="color: #ef4444;">Could not start download.</span>`;
           submitBtn.disabled = false;
         }
       } catch (error) {
-        clearInterval(progressTimer);
+        stopProgressEngine();
         document.getElementById('progressWrapper').style.display = 'none';
-        statusDiv.innerHTML = '<span style="color: #ef4444;">Connection failed. Ensure your Render server is awake and running.</span>';
+        statusDiv.innerHTML = '<span style="color: #ef4444;">Network connection error.</span>';
         submitBtn.disabled = false;
       }
     }
