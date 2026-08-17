@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FastVid - Free MP4 & MP3 Downloader</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background-color: #0b0f19;
+      color: #f3f4f6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 16px;
+    }
+
+    .card {
+      background-color: #151c2c;
+      border: 1px solid #2d3748;
+      border-radius: 16px;
+      padding: 32px 24px;
+      width: 100%;
+      max-width: 440px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .title {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #3b82f6;
+      margin-bottom: 4px;
+    }
+
+    .subtitle {
+      color: #9ca3af;
+      font-size: 0.9rem;
+      margin-bottom: 24px;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 14px;
+      border-radius: 8px;
+      font-size: 1rem;
+      border: 1px solid #334155;
+    }
+
+    input, select {
+      background-color: #0f172a;
+      color: #ffffff;
+      outline: none;
+    }
+
+    button {
+      background-color: #2563eb;
+      color: #ffffff;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: background 0.2s;
+    }
+
+    button:disabled {
+      background-color: #4b5563;
+      cursor: not-allowed;
+    }
+
+    #status {
+      margin-top: 20px;
+      font-size: 0.95rem;
+    }
+
+    .download-btn {
+      display: inline-block;
+      width: 100%;
+      box-sizing: border-box;
+      background-color: #10b981;
+      color: white;
+      text-decoration: none;
+      padding: 14px;
+      border-radius: 8px;
+      font-weight: bold;
+      margin-top: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="title">FastVid</div>
+    <div class="subtitle">Download YouTube Videos (MP4) & Music (MP3)</div>
+
+    <div class="input-group">
+      <input type="text" id="videoUrl" placeholder="Paste YouTube link here..." autocomplete="off">
+      
+      <select id="formatSelect">
+        <option value="720">MP4 Video (720p HD)</option>
+        <option value="360">MP4 Video (360p Fast)</option>
+        <option value="mp3">MP3 Audio</option>
+      </select>
+
+      <button id="submitBtn" onclick="startDownload()">Download Now</button>
+    </div>
+
+    <div id="status"></div>
+  </div>
+
+  <script>
+    function extractVideoID(url) {
+      const reg = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+      const match = url.match(reg);
+      return match ? match[1] : null;
+    }
+
+    async function startDownload() {
+      const urlInput = document.getElementById('videoUrl').value.trim();
+      const format = document.getElementById('formatSelect').value;
+      const statusDiv = document.getElementById('status');
+      const submitBtn = document.getElementById('submitBtn');
+
+      if (!urlInput) {
+        statusDiv.innerHTML = '<span style="color: #ef4444;">Please paste a YouTube URL.</span>';
+        return;
+      }
+
+      const videoId = extractVideoID(urlInput);
+      if (!videoId) {
+        statusDiv.innerHTML = '<span style="color: #ef4444;">Invalid YouTube link format.</span>';
+        return;
+      }
+
+      submitBtn.disabled = true;
+      statusDiv.innerHTML = 'Converting video... Please wait.';
+
+      const apiKey = '436b34b772mshf51742179240f03p1cdd04jsnac029a1c4428';
+      const apiHost = 'youtube-mp4-mp3-downloader.p.rapidapi.com';
+      const apiUrl = `https://${apiHost}/api/v1/download?format=${format}&id=${videoId}&audioQuality=128&addInfo=false&allowExtendedDuration=false`;
+
+      try {
+        const response = await fetch(apiUrl, {
+          method: 'GET',
+          headers: {
+            'x-rapidapi-key': apiKey,
+            'x-rapidapi-host': apiHost
+          }
+        });
+
+        const data = await response.json();
+        const downloadUrl = data.downloadUrl || data.url || data.link;
+
+        if (downloadUrl) {
+          statusDiv.innerHTML = `
+            <a href="${downloadUrl}" class="download-btn" target="_blank" rel="noopener noreferrer" download>
+              Save ${format === 'mp3' ? 'MP3 Audio' : 'MP4 Video'}
+            </a>
+          `;
+        } else {
+          statusDiv.innerHTML = '<span style="color: #ef4444;">Could not fetch download link. Try another video.</span>';
+        }
+      } catch (error) {
+        statusDiv.innerHTML = '<span style="color: #ef4444;">Error connecting to server. Try again.</span>';
+      } finally {
+        submitBtn.disabled = false;
+      }
+    }
+  </script>
+
+</body>
+</html>
