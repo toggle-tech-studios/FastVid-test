@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FastVid - Free MP4 & MP3 Downloader</title>
+  <title>FastVid - YouTube Downloader</title>
   <style>
     * {
       box-sizing: border-box;
@@ -52,6 +52,11 @@
       gap: 12px;
     }
 
+    .dropdown-row {
+      display: flex;
+      gap: 12px;
+    }
+
     input, select, button {
       width: 100%;
       padding: 14px;
@@ -64,6 +69,10 @@
       background-color: #0f172a;
       color: #ffffff;
       outline: none;
+    }
+
+    .dropdown-row select {
+      flex: 1;
     }
 
     button {
@@ -84,6 +93,7 @@
     #status {
       margin-top: 20px;
       font-size: 0.95rem;
+      line-height: 1.5;
     }
 
     .download-btn {
@@ -98,6 +108,46 @@
       font-weight: bold;
       margin-top: 12px;
     }
+
+    /* Progress Bar CSS */
+    .progress-wrapper {
+      margin-top: 20px;
+      text-align: center;
+    }
+    
+    .progress-container {
+      width: 100%;
+      background-color: #2d3748;
+      border-radius: 20px;
+      height: 26px;
+      overflow: hidden;
+      margin-top: 8px;
+      position: relative;
+      border: 1px solid #334155;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #3b82f6, #10b981); /* Cool Blue to Green gradient */
+      width: 0%;
+      transition: width 0.1s linear; /* Smooth micro-stutters for fast updates */
+      border-radius: 20px;
+    }
+
+    .progress-text {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: bold;
+      color: white;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+    }
   </style>
 </head>
 <body>
@@ -109,33 +159,188 @@
     <div class="input-group">
       <input type="text" id="videoUrl" placeholder="Paste YouTube link here..." autocomplete="off">
       
-      <select id="formatSelect">
-        <option value="720">MP4 Video (720p HD)</option>
-        <option value="360">MP4 Video (360p Fast)</option>
-        <option value="mp3">MP3 Audio</option>
-      </select>
+      <div class="dropdown-row">
+        <select id="mediaType" onchange="updateQualityOptions()">
+          <option value="mp4">Video (MP4)</option>
+          <option value="mp3">Audio (MP3)</option>
+        </select>
+
+        <select id="qualitySelect">
+          <!-- Populated automatically -->
+        </select>
+      </div>
 
       <button id="submitBtn" onclick="startDownload()">Download Now</button>
     </div>
 
+    <!-- Hidden progress bar wrapper that stays persistent -->
+    <div id="progressWrapper" class="progress-wrapper" style="display: none;">
+      <div id="progressLabel">Connecting to server...</div>
+      <div class="progress-container">
+        <div id="pBar" class="progress-bar"></div>
+        <div id="pText" class="progress-text">0%</div>
+      </div>
+    </div>
+
+    <!-- For final buttons and errors -->
     <div id="status"></div>
   </div>
 
   <script>
+    // --- Setup Dropdowns ---
+    function updateQualityOptions() {
+      const type = document.getElementById('mediaType').value;
+      const qSelect = document.getElementById('qualitySelect');
+      qSelect.innerHTML = ''; 
+      
+      if (type === 'mp4') {
+        const options = [
+          { val: '1080', text: '1080p (FHD)' },
+          { val: '720', text: '720p (HD)' },
+          { val: '480', text: '480p (SD)' },
+          { val: '360', text: '360p (Low)' }
+        ];
+        options.forEach(opt => qSelect.options.add(new Option(opt.text, opt.val)));
+        qSelect.value = '720'; 
+      } else {
+        const options = [
+          { val: '320', text: '320 kbps (Best)' },
+          { val: '256', text: '256 kbps (High)' },
+          { val: '192', text: '192 kbps (Good)' },
+          { val: '128', text: '128 kbps (Normal)' },
+          { val: '64', text: '64 kbps (Low)' }
+        ];
+        options.forEach(opt => qSelect.options.add(new Option(opt.text, opt.val)));
+        qSelect.value = '192'; 
+      }
+    }
+    
+    window.onload = updateQualityOptions;
+
+    // --- Animation Engine ---
+    let progressTimer = null;
+    let currentP = 0;
+    let targetP = 0;
+
+    function startProgressEngine() {
+      clearInterval(progressTimer);
+      currentP = 0;
+      targetP = 5; // Initial fake target to get things moving
+      
+      const pBar = document.getElementById('pBar');
+      const pText = document.getElementById('pText');
+      pBar.style.width = '0%';
+      pText.innerText = '0%';
+
+      // Run this every 80 milliseconds to make numbers zip upwards
+      progressTimer = setInterval(() => {
+        if (currentP < targetP) {
+          // Jump towards target by 1% to 3% randomly
+          currentP += Math.floor(Math.random() * 3) + 1;
+          if (currentP > targetP) currentP = targetP;
+        } else if (currentP < 95 && targetP > 0) {
+          // If we reached the target, keep ticking up slowly anyway
+          if (Math.random() < 0.08) {
+             currentP += 1;
+          }
+        }
+
+        pBar.style.width = currentP + '%';
+        pText.innerText = currentP + '%';
+      }, 80);
+    }
+
+    function stopProgressEngine() {
+      clearInterval(progressTimer);
+    }
+
+    // --- API & Core Logic ---
     function extractVideoID(url) {
-      const reg = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
-      const match = url.match(reg);
+      if (!url) return null;
+      const regExp = /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|shorts\/|watch\?.+&v=))([\w-]{11})/;
+      const match = url.match(regExp);
       return match ? match[1] : null;
+    }
+
+    const apiKey = '436b34b772mshf51742179240f03p1cdd04jsnac029a1c4428';
+    const apiHost = 'youtube-mp4-mp3-downloader.p.rapidapi.com';
+
+    function triggerDirectDownload(fileUrl, mediaType) {
+      const ext = mediaType === 'mp3' ? 'mp3' : 'mp4';
+      const a = document.createElement('a');
+      a.href = fileUrl;
+      a.download = `media.${ext}`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    function finishDownload(finalUrl, mediaType, submitBtn, statusDiv) {
+      targetP = 100; // Force bar to 100%
+      document.getElementById('progressLabel').innerText = 'Finalizing file...';
+      
+      // Wait 800ms so the user actually sees the bar hit 100% before hiding it
+      setTimeout(() => {
+        stopProgressEngine();
+        document.getElementById('progressWrapper').style.display = 'none';
+        
+        statusDiv.innerHTML = `
+          <a href="${finalUrl}" class="download-btn" target="_blank" rel="noopener noreferrer">
+            ⬇️ Click to Download ${mediaType === 'mp3' ? 'MP3' : 'MP4'}
+          </a>
+        `;
+        triggerDirectDownload(finalUrl, mediaType);
+        submitBtn.disabled = false;
+      }, 800);
+    }
+
+    async function checkProgress(progressId, mediaType, statusDiv, submitBtn) {
+      const progressUrl = `https://${apiHost}/api/v1/progress?id=${progressId}`;
+
+      try {
+        const response = await fetch(progressUrl, {
+          headers: { 'x-rapidapi-key': apiKey, 'x-rapidapi-host': apiHost }
+        });
+
+        const data = await response.json();
+
+        if (data.downloadUrl || data.url || data.link) {
+          const finalUrl = data.downloadUrl || data.url || data.link;
+          finishDownload(finalUrl, mediaType, submitBtn, statusDiv);
+          return;
+        }
+
+        if (data.progress !== undefined && data.progress < 100) {
+          // Tell the animation engine where to jump to
+          targetP = Math.round(data.progress);
+          document.getElementById('progressLabel').innerText = 'Converting Media...';
+          setTimeout(() => checkProgress(progressId, mediaType, statusDiv, submitBtn), 2000);
+        } else if (data.success === 0 || data.error) {
+          stopProgressEngine();
+          document.getElementById('progressWrapper').style.display = 'none';
+          statusDiv.innerHTML = `<span style="color: #ef4444;">Conversion error: ${data.message || 'Failed.'}</span>`;
+          submitBtn.disabled = false;
+        } else {
+          document.getElementById('progressLabel').innerText = 'Processing server job...';
+          setTimeout(() => checkProgress(progressId, mediaType, statusDiv, submitBtn), 2000);
+        }
+      } catch (err) {
+        stopProgressEngine();
+        document.getElementById('progressWrapper').style.display = 'none';
+        statusDiv.innerHTML = '<span style="color: #ef4444;">Error verifying progress.</span>';
+        submitBtn.disabled = false;
+      }
     }
 
     async function startDownload() {
       const urlInput = document.getElementById('videoUrl').value.trim();
-      const format = document.getElementById('formatSelect').value;
+      const mediaType = document.getElementById('mediaType').value;
+      const qualityValue = document.getElementById('qualitySelect').value;
       const statusDiv = document.getElementById('status');
       const submitBtn = document.getElementById('submitBtn');
 
       if (!urlInput) {
-        statusDiv.innerHTML = '<span style="color: #ef4444;">Please paste a YouTube URL.</span>';
+        statusDiv.innerHTML = '<span style="color: #ef4444;">Please paste a YouTube link.</span>';
         return;
       }
 
@@ -145,37 +350,53 @@
         return;
       }
 
+      // Reset UI state
+      statusDiv.innerHTML = '';
       submitBtn.disabled = true;
-      statusDiv.innerHTML = 'Converting video... Please wait.';
+      document.getElementById('progressWrapper').style.display = 'block';
+      document.getElementById('progressLabel').innerText = 'Sending to server...';
+      
+      // Start the animated ticking numbers
+      startProgressEngine();
 
-      const apiKey = '436b34b772mshf51742179240f03p1cdd04jsnac029a1c4428';
-      const apiHost = 'youtube-mp4-mp3-downloader.p.rapidapi.com';
-      const apiUrl = `https://${apiHost}/api/v1/download?format=${format}&id=${videoId}&audioQuality=128&addInfo=false&allowExtendedDuration=false`;
+      let apiFormat = mediaType === 'mp4' ? qualityValue : 'mp3';
+      let apiAudioQuality = mediaType === 'mp4' ? '128' : qualityValue;
+
+      const initialUrl = `https://${apiHost}/api/v1/download?format=${apiFormat}&id=${videoId}&audioQuality=${apiAudioQuality}&addInfo=false&allowExtendedDuration=false`;
 
       try {
-        const response = await fetch(apiUrl, {
+        const response = await fetch(initialUrl, {
           method: 'GET',
-          headers: {
-            'x-rapidapi-key': apiKey,
-            'x-rapidapi-host': apiHost
-          }
+          headers: { 'x-rapidapi-key': apiKey, 'x-rapidapi-host': apiHost }
         });
 
         const data = await response.json();
-        const downloadUrl = data.downloadUrl || data.url || data.link;
 
-        if (downloadUrl) {
-          statusDiv.innerHTML = `
-            <a href="${downloadUrl}" class="download-btn" target="_blank" rel="noopener noreferrer" download>
-              Save ${format === 'mp3' ? 'MP3 Audio' : 'MP4 Video'}
-            </a>
-          `;
+        if (data.downloadUrl || data.url || data.link) {
+          const finalUrl = data.downloadUrl || data.url || data.link;
+          finishDownload(finalUrl, mediaType, submitBtn, statusDiv);
+          return;
+        }
+
+        const progressId = data.id || data.progressId || data.taskId;
+        if (progressId) {
+          targetP = 15; // Give it a quick jump
+          checkProgress(progressId, mediaType, statusDiv, submitBtn);
+        } else if (data.message) {
+          stopProgressEngine();
+          document.getElementById('progressWrapper').style.display = 'none';
+          statusDiv.innerHTML = `<span style="color: #ef4444;">${data.message}</span>`;
+          submitBtn.disabled = false;
         } else {
-          statusDiv.innerHTML = '<span style="color: #ef4444;">Could not fetch download link. Try another video.</span>';
+          stopProgressEngine();
+          document.getElementById('progressWrapper').style.display = 'none';
+          statusDiv.innerHTML = `<span style="color: #ef4444;">Could not start download.</span>`;
+          submitBtn.disabled = false;
         }
       } catch (error) {
-        statusDiv.innerHTML = '<span style="color: #ef4444;">Error connecting to server. Try again.</span>';
-      } finally {
+        stopProgressEngine();
+        document.getElementById('progressWrapper').style.display = 'none';
+        statusDiv.innerHTML = '<span style="color: #ef4444;">Connection error. Please try again.</span>';
         submitBtn.disabled = false;
       }
     }
