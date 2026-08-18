@@ -1,167 +1,533 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FastVid - YouTube Downloader</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Google AdSense Verification -->
+<meta name="google-adsense-account" content="ca-pub-9069263337314949">
 
-    body {
-      background-color: #0b0f19;
-      color: #f3f4f6;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 16px;
-    }
+<title>FastVid Pro | Ultimate Free YouTube to MP4 & MP3 Downloader 2026</title>
+<meta name="description" content="India's fastest and most reliable free YouTube downloader. Convert and download YouTube videos in 1080p, 720p HD MP4, or extract high-quality 320kbps MP3 audio instantly. No registration required.">
+<meta name="keywords" content="YouTube downloader, YT to MP4, YouTube to MP3, free video downloader, download HD videos, YouTube Shorts downloader, YT converter, fastvid pro, download YouTube audio, MP4 converter, 1080p downloader, online video saver">
+<meta name="author" content="FastVid Pro Systems">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<link rel="canonical" href="https://mahibmd1122-ux.github.io/">
 
-    .card {
-      background-color: #151c2c;
-      border: 1px solid #2d3748;
-      border-radius: 16px;
-      padding: 32px 24px;
-      width: 100%;
-      max-width: 440px;
-      text-align: center;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-    }
+<link rel="icon" type="image/jpeg" href="https://img.freepik.com/premium-vector/red-play-button-neon-icon-vector-illustration_98480-1915.jpg">
+<link rel="apple-touch-icon" href="https://img.freepik.com/premium-vector/red-play-button-neon-icon-vector-illustration_98480-1915.jpg">
 
-    .title {
-      font-size: 2rem;
-      font-weight: 800;
-      color: #3b82f6;
-      margin-bottom: 4px;
-    }
+<!-- Open Graph for Social Media -->
+<meta property="og:title" content="FastVid Pro | Free YouTube to MP4 & MP3 Downloader">
+<meta property="og:description" content="Download YouTube videos and music instantly in high quality. 100% Free forever. No limits, no registration.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mahibmd1122-ux.github.io/">
+<meta property="og:image" content="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=1200&q=80">
+<meta property="og:site_name" content="FastVid Pro">
+<meta property="og:locale" content="en_IN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="FastVid Pro | Free Video Downloader">
+<meta name="twitter:description" content="Lightning fast YouTube downloader. MP4 and MP3 conversions in seconds.">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=1200&q=80">
 
-    .subtitle {
-      color: #9ca3af;
-      font-size: 0.9rem;
-      margin-bottom: 24px;
-    }
+<!-- AdSense Script -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9069263337314949" crossorigin="anonymous"></script>
 
-    .input-group {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-C5KMGS6VML"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-C5KMGS6VML');</script>
 
-    .dropdown-row {
-      display: flex;
-      gap: 12px;
-    }
+<!-- JSON-LD SEO Schema Markup -->
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"FastVid Pro","url":"https://mahibmd1122-ux.github.io/","description":"Free online tool to download and convert YouTube videos into MP4 and MP3 formats instantly.","applicationCategory":"MultimediaApplication","operatingSystem":"Web, Android, iOS, Windows, macOS","offers":{"@type":"Offer","price":"0","priceCurrency":"INR"},"publisher":{"@type":"Organization","name":"FastVid Pro","location":"Mancherial, Telangana, India"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is FastVid Pro free?","acceptedAnswer":{"@type":"Answer","text":"Yes, FastVid Pro is completely free. All downloading and conversion tools are accessible at no cost without registration."}},{"@type":"Question","name":"Can I download videos on my iPhone?","acceptedAnswer":{"@type":"Answer","text":"Absolutely. FastVid Pro is fully optimized for Safari on iOS. Files will save directly to your iPhone's Files app or Photos."}},{"@type":"Question","name":"Are there any download limits?","acceptedAnswer":{"@type":"Answer","text":"No! You can download as many videos, shorts, and audio tracks as you want without any restrictions."}}]}</script>
 
-    input, select, button {
-      width: 100%;
-      padding: 14px;
-      border-radius: 8px;
-      font-size: 1rem;
-      border: 1px solid #334155;
-    }
+<!-- Fonts & Icons -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    input, select {
-      background-color: #0f172a;
-      color: #ffffff;
-      outline: none;
-    }
+<style>
+/* ==========================================================================
+   CSS RESET & VARIABLES (MATHHUB PRO STYLE)
+   ========================================================================== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#ef4444; /* Adapted to YouTube Red */
+  --blue-dark:#b91c1c; 
+  --blue-light:#fee2e2;
+  --blue-mid:#dc2626;
+  --green:#059669;--green-light:#d1fae5;
+  --orange:#d97706;--orange-light:#fef3c7;
+  --purple:#7c3aed;--purple-light:#ede9fe;
+  --red:#dc2626;--red-light:#fee2e2;
+  --teal:#0891b2;--teal-light:#cffafe;
+  --gray-50:#f9fafb;--gray-100:#f3f4f6;--gray-200:#e5e7eb;
+  --gray-300:#d1d5db;--gray-400:#9ca3af;--gray-500:#6b7280;
+  --gray-600:#4b5563;--gray-700:#374151;--gray-800:#1f2937;--gray-900:#111827;
+  --white:#ffffff;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.05);
+  --shadow:0 4px 6px rgba(0,0,0,.07),0 2px 4px rgba(0,0,0,.05);
+  --shadow-md:0 10px 15px rgba(0,0,0,.08),0 4px 6px rgba(0,0,0,.04);
+  --shadow-lg:0 20px 25px rgba(0,0,0,.09),0 10px 10px rgba(0,0,0,.04);
+  --radius:10px;--radius-lg:16px;--radius-xl:24px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--gray-50);color:var(--gray-800);line-height:1.7;font-size:16px}
+h1,h2,h3,h4,h5,h6{font-family:'Poppins',sans-serif;line-height:1.3;color:var(--gray-900)}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block}
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-track{background:var(--gray-100)}
+::-webkit-scrollbar-thumb{background:var(--blue);border-radius:4px}
 
-    .dropdown-row select {
-      flex: 1;
-    }
+/* ===== NAV ===== */
+.site-nav{
+  background:var(--white);border-bottom:1px solid var(--gray-200);
+  position:sticky;top:0;z-index:1000;box-shadow:var(--shadow-sm);
+}
+.nav-inner{
+  max-width:1280px;margin:0 auto;padding:0 1.5rem;
+  display:flex;align-items:center;justify-content:space-between;height:64px;gap:1rem;
+}
+.nav-logo{display:flex;align-items:center;gap:.6rem;font-family:'Poppins',sans-serif;font-weight:700;font-size:1.2rem;color:var(--gray-900);}
+.nav-logo span{color:var(--blue)}
+.nav-logo i{font-size:1.5rem; color:var(--blue);}
+.nav-links{display:flex;align-items:center;gap:.25rem}
+.nav-links a{padding:.4rem .8rem;border-radius:6px;font-size:.875rem;font-weight:500;color:var(--gray-600);transition:.2s}
+.nav-links a:hover{color:var(--blue);background:var(--blue-light)}
+.nav-search{flex:1;max-width:340px;position:relative}
+.nav-search input{
+  width:100%;padding:.45rem 1rem .45rem 2.4rem;border:1.5px solid var(--gray-300);
+  border-radius:8px;font-size:.875rem;font-family:'Inter',sans-serif;
+  background:var(--gray-50);color:var(--gray-800);transition:.2s;
+}
+.nav-search input:focus{outline:none;border-color:var(--blue);background:var(--white);box-shadow:0 0 0 3px rgba(239,68,68,.1)}
+.nav-search i{position:absolute;left:.75rem;top:50%;transform:translateY(-50%);color:var(--gray-400);font-size:.85rem}
+.nav-right{display:flex;align-items:center;gap:.75rem}
+.nav-signin{padding:.4rem 1rem;background:var(--blue);color:var(--white);border-radius:7px;font-size:.85rem;font-weight:600;transition:.2s}
+.nav-signin:hover{background:var(--blue-dark)}
+#menuToggle{display:none;background:none;border:1.5px solid var(--gray-300);border-radius:6px;padding:.35rem .6rem;cursor:pointer;color:var(--gray-700)}
 
-    button {
-      background-color: #2563eb;
-      color: #ffffff;
-      font-weight: bold;
-      border: none;
-      cursor: pointer;
-      margin-top: 6px;
-      transition: background 0.2s;
-    }
+/* ===== HERO ===== */
+.hero{
+  background:linear-gradient(135deg,var(--gray-900) 0%,var(--gray-800) 50%,#000000 100%);
+  color:var(--white);padding:72px 1.5rem 80px;text-align:center;position:relative;overflow:hidden;
+}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");pointer-events:none}
+.hero-inner{max-width:800px;margin:0 auto;position:relative}
+.hero-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:50px;padding:.3rem .9rem;font-size:.8rem;font-weight:600;margin-bottom:1.25rem;backdrop-filter:blur(4px)}
+.hero h1{font-size:clamp(2rem,5vw,3.25rem);font-weight:800;margin-bottom:1rem;line-height:1.2}
+.hero h1 span{color:var(--blue)}
+.hero p{font-size:clamp(1rem,2vw,1.15rem);opacity:.9;max-width:600px;margin:0 auto 2rem;line-height:1.7}
+.hero-search{display:flex;gap:.5rem;max-width:320px;margin:0 auto 2.5rem;}
+.hero-search button{background:var(--blue);color:var(--white);border:none;border-radius:8px;padding:.8rem 1.5rem;font-size:1.1rem;font-weight:700;cursor:pointer;transition:.2s;width:100%; box-shadow:0 8px 32px rgba(239,68,68,.4)}
+.hero-search button:hover{background:var(--blue-dark); transform:translateY(-2px)}
+.hero-stats{display:flex;justify-content:center;gap:2.5rem;flex-wrap:wrap}
+.hero-stat{text-align:center}
+.hero-stat strong{display:block;font-size:1.6rem;font-weight:800;color:var(--white)}
+.hero-stat span{font-size:.8rem;opacity:.85;font-weight:500}
 
-    button:disabled {
-      background-color: #4b5563;
-      cursor: not-allowed;
-    }
+/* ===== TRUST BAR ===== */
+.trust-bar{background:var(--white);border-bottom:1px solid var(--gray-200);padding:.75rem 1.5rem}
+.trust-bar-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:2rem;flex-wrap:wrap}
+.trust-item{display:flex;align-items:center;gap:.4rem;font-size:.82rem;font-weight:500;color:var(--gray-600)}
+.trust-item i{color:var(--green);font-size:.9rem}
 
-    #status {
-      margin-top: 20px;
-      font-size: 0.95rem;
-      line-height: 1.5;
-    }
+/* ===== CONTAINERS ===== */
+.container{max-width:1280px;margin:0 auto;padding:0 1.5rem}
+.section{padding:60px 0}
+.section-header{text-align:center;margin-bottom:3rem}
+.section-header h2{font-size:clamp(1.5rem,3vw,2.2rem);color:var(--gray-900);margin-bottom:.6rem}
+.section-header p{color:var(--gray-500);font-size:1rem;max-width:560px;margin:0 auto}
+.section-label{display:inline-block;background:var(--blue-light);color:var(--blue-dark);font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.25rem .75rem;border-radius:50px;margin-bottom:.75rem}
 
-    .download-btn {
-      display: inline-block;
-      width: 100%;
-      box-sizing: border-box;
-      background-color: #10b981;
-      color: white;
-      text-decoration: none;
-      padding: 14px;
-      border-radius: 8px;
-      font-weight: bold;
-      margin-top: 12px;
-    }
+/* ===== INTRO BLOCK ===== */
+.intro-block{background:var(--white);border-radius:var(--radius-lg);padding:2.5rem;box-shadow:var(--shadow);margin-bottom:3rem;border-left:5px solid var(--blue)}
+.intro-block h2{font-size:1.5rem;color:var(--gray-900);margin-bottom:1rem}
+.intro-block p{color:var(--gray-600);line-height:1.8;margin-bottom:.75rem}
+.intro-block p:last-child{margin-bottom:0}
 
-    .progress-wrapper {
-      margin-top: 20px;
-      text-align: center;
-    }
-    
-    .progress-container {
-      width: 100%;
-      background-color: #2d3748;
-      border-radius: 20px;
-      height: 26px;
-      overflow: hidden;
-      margin-top: 8px;
-      position: relative;
-      border: 1px solid #334155;
-    }
+/* ===== MAIN DOWNLOADER UI ===== */
+.downloader-box {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 3rem;
+  box-shadow: var(--shadow-lg);
+  margin-top: -60px;
+  position: relative;
+  z-index: 10;
+  border: 1px solid var(--gray-200);
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 3rem;
+}
+.dl-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.dl-input-group input, .dl-input-group select {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  font-size: 1.05rem;
+  border: 2px solid var(--gray-300);
+  background-color: var(--gray-50);
+  color: var(--gray-900);
+  font-family: 'Inter', sans-serif;
+  transition: var(--transition);
+  outline: none;
+}
+.dl-input-group input:focus, .dl-input-group select:focus {
+  border-color: var(--blue);
+  background-color: var(--white);
+}
+.dl-dropdown-row {
+  display: flex;
+  gap: 1rem;
+}
+.dl-dropdown-row select {
+  flex: 1;
+  cursor: pointer;
+}
+.dl-btn {
+  background-color: var(--blue);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 12px;
+  padding: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(239, 68, 68, 0.3);
+  transition: .2s;
+}
+.dl-btn:hover:not(:disabled) {
+  background-color: var(--blue-dark);
+  transform: translateY(-2px);
+}
+.dl-btn:disabled {
+  background-color: var(--gray-500);
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+.dl-progress-wrapper {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+.dl-progress-label {
+  font-weight: 600;
+  color: var(--gray-600);
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+.dl-progress-container {
+  width: 100%;
+  background-color: var(--gray-200);
+  border-radius: 30px;
+  height: 28px;
+  overflow: hidden;
+  position: relative;
+}
+.dl-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--blue), #f87171, var(--blue));
+  background-size: 200% 200%;
+  animation: dl-gradientMove 2s linear infinite;
+  width: 0%;
+  transition: width 0.3s ease;
+  border-radius: 30px;
+}
+@keyframes dl-gradientMove {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+.dl-progress-text {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem; font-weight: 800; color: white;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+.dl-status {
+  margin-top: 1.25rem;
+  font-size: 1rem;
+  text-align: center;
+}
+.dl-download-link {
+  display: inline-block;
+  width: 100%;
+  background-color: var(--green);
+  color: white;
+  text-decoration: none;
+  padding: 1.2rem;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 1.1rem;
+  box-shadow: 0 10px 20px rgba(5, 150, 105, 0.3);
+  transition: .2s;
+}
+.dl-download-link:hover {
+  background-color: #047857;
+  transform: translateY(-2px);
+}
 
-    .progress-bar {
-      height: 100%;
-      background: linear-gradient(90deg, #3b82f6, #10b981);
-      width: 0%;
-      transition: width 0.1s linear;
-      border-radius: 20px;
-    }
+/* ===== FEATURED GRID ===== */
+.featured-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-bottom:3rem}
+.featured-card{
+  background:linear-gradient(135deg,var(--gray-900),var(--gray-700));
+  color:var(--white);border-radius:var(--radius-lg);padding:2rem;
+  display:flex;flex-direction:column;gap:1rem;transition:.3s;
+  box-shadow:var(--shadow-md);
+}
+.featured-card:nth-child(2){background:linear-gradient(135deg,var(--purple),#6d28d9)}
+.featured-card:nth-child(3){background:linear-gradient(135deg,var(--blue-dark),var(--blue))}
+.featured-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.featured-card .icon{font-size:2.5rem}
+.featured-card h3{font-size:1.2rem;font-weight:700}
+.featured-card p{opacity:.9;font-size:.9rem;line-height:1.6}
+.featured-card .open-link{display:inline-flex;align-items:center;gap:.35rem;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);padding:.4rem .9rem;border-radius:6px;font-size:.85rem;font-weight:600;margin-top:.25rem;width:fit-content;transition:.2s; cursor:pointer;}
+.featured-card .open-link:hover{background:rgba(255,255,255,.3)}
 
-    .progress-text {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.85rem;
-      font-weight: bold;
-      color: white;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
-    }
-  </style>
+/* ===== TOOL SECTION (SEO ARTICLES) ===== */
+.tool-section{
+  background:var(--white);border-radius:var(--radius-lg);
+  box-shadow:var(--shadow);margin-bottom:2.5rem;overflow:hidden;
+  border:1px solid var(--gray-200);
+}
+.tool-card-top{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.5rem 2rem;background:var(--gray-50);
+  border-bottom:1px solid var(--gray-200);flex-wrap:wrap;gap:1rem;
+}
+.tool-card-top .tool-identity{display:flex;align-items:center;gap:1rem}
+.tool-emoji{font-size:2.2rem;background:var(--white);border-radius:12px;width:56px;height:56px;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-sm);border:1.5px solid var(--gray-200)}
+.tool-meta h3{font-size:1.15rem;font-weight:700;color:var(--gray-900);margin-bottom:.15rem}
+.tool-meta p{font-size:.83rem;color:var(--gray-500)}
+.tool-badge{font-size:.7rem;font-weight:700;padding:.2rem .6rem;border-radius:50px;display:inline-block;margin-left:.4rem;text-transform:uppercase}
+.badge-free{background:var(--green-light);color:var(--green)}
+.badge-ai{background:var(--purple-light);color:var(--purple)}
+.badge-new{background:var(--orange-light);color:var(--orange)}
+.open-tool-btn{
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:var(--blue);color:var(--white);
+  padding:.6rem 1.4rem;border-radius:8px;font-size:.875rem;font-weight:600;
+  transition:.2s;white-space:nowrap; cursor:pointer;
+}
+.open-tool-btn:hover{background:var(--blue-dark);transform:translateY(-1px);box-shadow:0 4px 12px rgba(239,68,68,.3)}
+.tool-article{padding:2rem 2.5rem}
+.tool-article h2{font-size:1.3rem;color:var(--gray-900);margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:2px solid var(--blue-light)}
+.tool-article p{color:var(--gray-600);line-height:1.85;margin-bottom:1rem;font-size:.97rem}
+.tool-article p:last-child{margin-bottom:0}
+.tool-article strong{color:var(--gray-800);font-weight:600}
+.tool-article h4{color:var(--gray-800);font-size:1rem;font-weight:700;margin:1.25rem 0 .5rem;font-family:'Inter',sans-serif}
+.tool-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--gray-200)}
+.tool-tag{background:var(--gray-100);color:var(--gray-600);border:1px solid var(--gray-200);padding:.25rem .75rem;border-radius:50px;font-size:.75rem;font-weight:500}
+
+/* ===== AD UNIT ===== */
+.ad-unit{
+  background:var(--gray-100);border:1px dashed var(--gray-300);
+  border-radius:var(--radius);padding:1rem;text-align:center;
+  margin:2.5rem 0;min-height:90px;display:flex;align-items:center;justify-content:center;
+}
+.ad-unit ins{width:100%}
+
+/* ===== EDU SECTIONS ===== */
+.edu-section{background:var(--white);border-radius:var(--radius-lg);padding:2.5rem;box-shadow:var(--shadow);margin-bottom:2.5rem;border-top:4px solid var(--blue)}
+.edu-section h2{font-size:1.4rem;color:var(--gray-900);margin-bottom:1.25rem}
+.edu-section p{color:var(--gray-600);line-height:1.85;margin-bottom:1rem;font-size:.97rem}
+.edu-section h3{font-size:1.05rem;font-weight:700;color:var(--gray-800);margin:1.5rem 0 .5rem;font-family:'Inter',sans-serif}
+.edu-section ul{list-style:none;margin:.75rem 0 1rem;display:flex;flex-direction:column;gap:.4rem}
+.edu-section ul li{display:flex;align-items:flex-start;gap:.5rem;color:var(--gray-600);font-size:.95rem}
+.edu-section ul li::before{content:"✓";color:var(--blue);font-weight:700;flex-shrink:0;margin-top:.1rem}
+
+/* ===== FAQ ===== */
+.faq-section{background:var(--white);border-radius:var(--radius-lg);padding:2.5rem;box-shadow:var(--shadow);margin-bottom:2.5rem}
+.faq-section h2{font-size:1.6rem;color:var(--gray-900);margin-bottom:2rem;text-align:center}
+.faq-item{border:1.5px solid var(--gray-200);border-radius:var(--radius);margin-bottom:1rem;overflow:hidden;transition:.2s}
+.faq-item:hover{border-color:var(--blue-light)}
+.faq-question{
+  padding:1.15rem 1.5rem;font-weight:600;font-size:.97rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  color:var(--gray-800);user-select:none;
+}
+.faq-question i{color:var(--blue);font-size:.85rem;flex-shrink:0;transition:.3s}
+.faq-answer{padding:0 1.5rem;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease}
+.faq-item.open .faq-answer{max-height:300px;padding:0 1.5rem 1.25rem}
+.faq-item.open .faq-question i{transform:rotate(180deg)}
+.faq-answer p{color:var(--gray-600);line-height:1.8;font-size:.93rem}
+
+/* ===== KEYWORD CLOUD ===== */
+.keyword-cloud{padding:2rem;text-align:center}
+.keyword-cloud h3{font-size:1rem;color:var(--gray-500);margin-bottom:1rem;font-weight:500}
+.kw-wrap{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center}
+.kw-tag{padding:.3rem .85rem;background:var(--gray-100);border:1px solid var(--gray-300);border-radius:50px;font-size:.78rem;color:var(--gray-500);transition:.2s;cursor:default}
+.kw-tag:hover{background:var(--blue-light);border-color:var(--blue);color:var(--blue)}
+
+/* ===== FOOTER ===== */
+footer{background:var(--gray-900);color:var(--gray-300);padding:3rem 1.5rem 1.5rem}
+.footer-inner{max-width:1280px;margin:0 auto}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2.5rem;margin-bottom:2.5rem}
+.footer-brand h3{font-family:'Poppins',sans-serif;color:var(--white);font-size:1.2rem;margin-bottom:.75rem}
+.footer-brand p{font-size:.875rem;line-height:1.7;color:var(--gray-400);margin-bottom:1.25rem}
+.footer-col h4{color:var(--white);font-size:.9rem;font-weight:600;margin-bottom:.9rem;font-family:'Inter',sans-serif}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+.footer-col ul li a{color:var(--gray-400);font-size:.85rem;transition:.2s}
+.footer-col ul li a:hover{color:var(--white)}
+.footer-bottom{border-top:1px solid var(--gray-700);padding-top:1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem}
+.footer-bottom p{font-size:.8rem;color:var(--gray-500)}
+.footer-bottom-links{display:flex;gap:1.25rem}
+.footer-bottom-links a{font-size:.78rem;color:var(--gray-500);transition:.2s}
+.footer-bottom-links a:hover{color:var(--white)}
+
+/* ===== MOBILE SIDEBAR ===== */
+.sidebar{position:fixed;top:0;left:-300px;width:280px;height:100vh;background:var(--white);z-index:2000;transition:.4s cubic-bezier(.4,0,.2,1);box-shadow:var(--shadow-lg);overflow-y:auto}
+.sidebar.open{left:0}
+.sidebar-head{padding:1.25rem 1.5rem;border-bottom:1px solid var(--gray-200);display:flex;align-items:center;justify-content:space-between}
+.sidebar-head h3{font-size:1rem;font-weight:700;color:var(--gray-900)}
+.sidebar-close{background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--gray-500)}
+.sidebar-links{padding:1rem}
+.sidebar-links a{display:flex;align-items:center;gap:.75rem;padding:.75rem 1rem;border-radius:8px;color:var(--gray-700);font-size:.9rem;font-weight:500;transition:.2s}
+.sidebar-links a:hover{background:var(--blue-light);color:var(--blue)}
+.sidebar-links a i{width:20px;text-align:center;color:var(--blue)}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:1999;display:none}
+.overlay.show{display:block}
+
+/* ===== REVEAL ANIMATION ===== */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease}
+.reveal.active{opacity:1;transform:translateY(0)}
+
+/* ===== UTILITIES ===== */
+.stat-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.25rem;margin-bottom:2.5rem}
+.stat-card{background:var(--white);border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow-sm);border:1px solid var(--gray-200);text-align:center}
+.stat-card .num{font-size:2rem;font-weight:800;color:var(--blue);font-family:'Poppins',sans-serif}
+.stat-card .lbl{font-size:.82rem;color:var(--gray-500);margin-top:.2rem}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:1024px){.footer-grid{grid-template-columns:1fr 1fr;gap:2rem}}
+@media(max-width:768px){
+  .nav-links{display:none}
+  .nav-search{display:none}
+  #menuToggle{display:block}
+  .hero{padding:48px 1rem 120px}
+  .hero-stats{gap:1.5rem}
+  .section{padding:40px 0}
+  .tool-card-top{padding:1.25rem}
+  .tool-article{padding:1.5rem}
+  .footer-grid{grid-template-columns:1fr}
+  .footer-bottom{flex-direction:column;align-items:flex-start}
+  .dl-dropdown-row{flex-direction:column}
+}
+@media(max-width:480px){
+  .hero h1{font-size:1.7rem}
+  .hero-stats{gap:1rem}
+  .hero-stat strong{font-size:1.3rem}
+  .downloader-box{padding:1.5rem; margin-top:-40px;}
+}
+</style>
 </head>
 <body>
 
-  <div class="card">
-    <div class="title">FastVid</div>
-    <div class="subtitle">Download YouTube Videos (MP4) & Music (MP3)</div>
+<!-- ======================== MOBILE OVERLAY ======================== -->
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
 
-    <div class="input-group">
-      <input type="text" id="videoUrl" placeholder="Paste YouTube link here..." autocomplete="off">
+<!-- ======================== MOBILE SIDEBAR ======================== -->
+<div class="sidebar" id="mobileSidebar">
+  <div class="sidebar-head">
+    <h3>FastVid Pro</h3>
+    <button class="sidebar-close" onclick="closeSidebar()"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="sidebar-links" id="auth-links">
+    <a href="#"><i class="fas fa-user-circle"></i> Sign In / Sign Up</a>
+  </div>
+  <div class="sidebar-links" id="user-links" style="display:none">
+    <a href="#"><i class="fas fa-user"></i> <span id="user-display">User</span></a>
+    <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt" style="color:#dc2626"></i> Log Out</a>
+  </div>
+  <div class="sidebar-links">
+    <a href="#dl-tool" onclick="closeSidebar()"><i class="fas fa-download"></i> YT Downloader</a>
+    <a href="#tool-mp4" onclick="closeSidebar()"><i class="fas fa-video"></i> YT to MP4</a>
+    <a href="#tool-mp3" onclick="closeSidebar()"><i class="fas fa-music"></i> YT to MP3</a>
+    <a href="#tool-shorts" onclick="closeSidebar()"><i class="fas fa-mobile-alt"></i> Shorts Downloader</a>
+    <a href="#tool-ios" onclick="closeSidebar()"><i class="fab fa-apple"></i> Download on iPhone</a>
+    <a href="#tool-android" onclick="closeSidebar()"><i class="fab fa-android"></i> Download on Android</a>
+    <a href="#faq" onclick="closeSidebar()"><i class="fas fa-question-circle"></i> Help & FAQ</a>
+  </div>
+</div>
+
+<!-- ======================== NAVIGATION ======================== -->
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <i class="fab fa-youtube"></i>
+      Fast<span>Vid</span> Pro
+    </a>
+    <div class="nav-search">
+      <i class="fas fa-search"></i>
+      <input type="text" id="navSearch" onkeyup="filterTools()" placeholder="Search tools...">
+    </div>
+    <div class="nav-links">
+      <a href="#dl-tool">Downloader</a>
+      <a href="#tool-mp4">Video Converter</a>
+      <a href="#tool-mp3">Audio Converter</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <div class="nav-right">
+      <div id="user-profile" style="display: none; align-items: center; gap: 10px;">
+        <span id="user-name" style="font-weight: 600; font-size: 0.85rem; color: var(--gray-800);"></span>
+        <img id="user-logo" src="" alt="Profile" style="width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--blue); object-fit: cover; cursor: pointer;" onclick="logout()" title="Click to Sign Out">
+      </div>
+      <a href="#" class="nav-signin" id="nav-auth-link">Sign In</a>
+      <button id="menuToggle" onclick="openSidebar()" aria-label="Open menu"><i class="fas fa-bars"></i></button>
+    </div>
+  </div>
+</nav>
+
+<!-- ======================== HERO ======================== -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge"><i class="fas fa-bolt"></i> India's Fastest Free Media Downloader</div>
+    <h1>Download YouTube Videos <span>Instantly.</span></h1>
+    <p>Convert and save your favorite YouTube videos in 1080p, 720p HD MP4 or extract crystal-clear 320kbps MP3 audio. 100% free, forever.</p>
+    <div class="hero-search">
+      <button onclick="document.getElementById('dl-tool').scrollIntoView({behavior: 'smooth'})"><i class="fas fa-arrow-down"></i> JUMP TO DOWNLOADER</button>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><strong>10M+</strong><span>Downloads</span></div>
+      <div class="hero-stat"><strong>100%</strong><span>Free Forever</span></div>
+      <div class="hero-stat"><strong>320kbps</strong><span>HD Audio</span></div>
+      <div class="hero-stat"><strong>1080p</strong><span>FHD Video</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== TRUST BAR ======================== -->
+<div class="trust-bar">
+  <div class="trust-bar-inner">
+    <div class="trust-item"><i class="fas fa-check-circle"></i> Free Forever</div>
+    <div class="trust-item"><i class="fas fa-check-circle"></i> No Registration Required</div>
+    <div class="trust-item"><i class="fas fa-check-circle"></i> Mobile & PC Friendly</div>
+    <div class="trust-item"><i class="fas fa-check-circle"></i> High-Speed Servers</div>
+    <div class="trust-item"><i class="fas fa-check-circle"></i> Safe & Secure</div>
+  </div>
+</div>
+
+<!-- ======================== MAIN CONTENT ======================== -->
+<div class="container">
+
+  <!-- THE ACTUAL DOWNLOADER UI -->
+  <div class="downloader-box reveal" id="dl-tool">
+    <h2 style="text-align:center; font-size:1.8rem; margin-bottom:1.5rem; color:var(--gray-900);">FastVid Downloader</h2>
+    
+    <div class="dl-input-group">
+      <input type="text" id="videoUrl" placeholder="Paste YouTube link here... (e.g., https://youtu.be/...)" autocomplete="off">
       
-      <div class="dropdown-row">
+      <div class="dl-dropdown-row">
         <select id="mediaType" onchange="updateQualityOptions()">
-          <option value="mp4">Video (MP4)</option>
-          <option value="mp3">Audio (MP3)</option>
+          <option value="mp4">Video Format (MP4)</option>
+          <option value="mp3">Audio Format (MP3)</option>
         </select>
 
         <select id="qualitySelect">
@@ -169,220 +535,627 @@
         </select>
       </div>
 
-      <button id="submitBtn" onclick="startDownload()">Download Now</button>
+      <button id="submitBtn" class="dl-btn" onclick="startDownload()">START DOWNLOAD</button>
     </div>
 
-    <div id="progressWrapper" class="progress-wrapper" style="display: none;">
-      <div id="progressLabel">Connecting to server...</div>
-      <div class="progress-container">
-        <div id="pBar" class="progress-bar"></div>
-        <div id="pText" class="progress-text">0%</div>
+    <!-- Progress Bar UI -->
+    <div id="progressWrapper" class="dl-progress-wrapper" style="display: none;">
+      <div id="progressLabel" class="dl-progress-label">Connecting to secure servers...</div>
+      <div class="dl-progress-container">
+        <div id="pBar" class="dl-progress-bar"></div>
+        <div id="pText" class="dl-progress-text">0%</div>
       </div>
     </div>
 
-    <div id="status"></div>
+    <div id="status" class="dl-status"></div>
   </div>
 
-  <script>
-    function updateQualityOptions() {
-      const type = document.getElementById('mediaType').value;
-      const qSelect = document.getElementById('qualitySelect');
-      qSelect.innerHTML = ''; 
-      
-      if (type === 'mp4') {
-        const options = [
-          { val: '720', text: '720p (HD)' },
-          { val: '360', text: '360p (Fast)' },
-          { val: '1080', text: '1080p (FHD)' }
-        ];
-        options.forEach(opt => qSelect.options.add(new Option(opt.text, opt.val)));
-        qSelect.value = '720'; 
-      } else {
-        const options = [
-          { val: '128', text: '128 kbps (Normal)' },
-          { val: '192', text: '192 kbps (Good)' },
-          { val: '320', text: '320 kbps (Best)' }
-        ];
-        options.forEach(opt => qSelect.options.add(new Option(opt.text, opt.val)));
-        qSelect.value = '128'; 
-      }
-    }
+  <!-- INTRO -->
+  <div class="section" style="padding-bottom:0; padding-top:0;">
+    <div class="intro-block reveal">
+      <h2>Welcome to FastVid Pro — The Ultimate YouTube Media Extraction Platform</h2>
+      <p>FastVid Pro is a free, all-in-one media conversion platform designed for users globally. Our mission is simple: provide lightning-fast, high-quality downloads of online video and audio content without the hassle of software installations, intrusive pop-ups, or mandatory account creations.</p>
+      <p>Whether you are a student downloading educational lectures for offline study, a commuter saving podcasts and music for a long journey, or a content creator backing up your YouTube Shorts — FastVid Pro has a purpose-built processing node for you. Our platform bridges the gap between streaming platforms and your local device's hard drive.</p>
+      <p>All conversions on FastVid Pro are processed entirely in the cloud. Our dedicated server clusters handle the heavy computational work of extracting, encoding, and packaging the media files. This ensures that you get results instantly, saving your mobile data, battery life, and device processing power. We regularly update our extraction algorithms to stay in sync with YouTube's evolving platform architecture.</p>
+    </div>
+  </div>
+
+  <!-- FEATURED TOOLS -->
+  <div class="section" style="padding-top:20px">
+    <div class="section-header reveal">
+      <div class="section-label">Core Features</div>
+      <h2>What FastVid Can Do</h2>
+      <p>Explore our highly optimized media conversion pipelines</p>
+    </div>
+    <div class="featured-grid reveal">
+      <div class="featured-card" onclick="document.getElementById('tool-mp4').scrollIntoView({behavior: 'smooth'})">
+        <div class="icon">🎬</div>
+        <h3>YT to MP4 HD</h3>
+        <p>Download full-length YouTube videos in up to 1080p Full HD resolution for crystal clear offline viewing.</p>
+        <div class="open-link">Learn More <i class="fas fa-arrow-right"></i></div>
+      </div>
+      <div class="featured-card" onclick="document.getElementById('tool-mp3').scrollIntoView({behavior: 'smooth'})">
+        <div class="icon">🎧</div>
+        <h3>YT to MP3 Audio</h3>
+        <p>Extract perfectly clean audio tracks at 320kbps bitrates. Perfect for music, podcasts, and audiobooks.</p>
+        <div class="open-link">Learn More <i class="fas fa-arrow-right"></i></div>
+      </div>
+      <div class="featured-card" onclick="document.getElementById('tool-shorts').scrollIntoView({behavior: 'smooth'})">
+        <div class="icon">📱</div>
+        <h3>Shorts Downloader</h3>
+        <p>Save viral YouTube Shorts directly to your camera roll or gallery without any watermarks.</p>
+        <div class="open-link">Learn More <i class="fas fa-arrow-right"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AD UNIT 1 -->
+  <div class="ad-unit">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9069263337314949" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+  </div>
+
+  <!-- ========== EDUCATIONAL / SEO ARTICLES ========== -->
+  <div class="section-header reveal" style="margin-bottom:2rem">
+    <div class="section-label">Comprehensive Guides</div>
+    <h2>Media Downloading & Format Hub</h2>
+    <p>Everything you need to know about video formats, audio extraction, and device compatibility</p>
+  </div>
+
+  <!-- ARTICLE 1: YouTube to MP4 -->
+  <div class="tool-section reveal" id="tool-mp4">
+    <div class="tool-card-top">
+      <div class="tool-identity">
+        <div class="tool-emoji">🎥</div>
+        <div class="tool-meta">
+          <h3>YouTube to MP4 Converter <span class="tool-badge badge-free">Free</span></h3>
+          <p>Download HD and FHD video files safely</p>
+        </div>
+      </div>
+      <button class="open-tool-btn" onclick="document.getElementById('dl-tool').scrollIntoView({behavior:'smooth'})"><i class="fas fa-download"></i> Use Tool</button>
+    </div>
+    <div class="tool-article">
+      <h2>YouTube to MP4 Converter: The Ultimate Guide to Offline Video</h2>
+      <p>The <strong>MP4 (MPEG-4 Part 14)</strong> format is the undisputed universal standard for digital video and audio storage. Originally introduced in 2001, MP4 containers are supported natively by virtually every modern device, operating system, and media player in existence — from iPhones and Android smartphones to Smart TVs, macOS laptops, and Windows desktop computers.</p>
+      <p>When you use the FastVid Pro YouTube to MP4 converter, our servers perform a highly complex extraction process. YouTube dynamically streams video and audio data in separate chunks (a technology known as DASH — Dynamic Adaptive Streaming over HTTP) to prevent buffering. To provide you with a playable file, our backend downloads the highest quality video stream, downloads the corresponding highest quality audio stream, and mathematically multiplexes (muxes) them together into a single, cohesive MP4 file before delivering the download link.</p>
+      <p>We support multiple resolution choices to suit your specific needs. <strong>1080p (Full HD)</strong> is ideal for downloading content to be viewed on large desktop monitors or televisions, providing maximum visual clarity and crispness. <strong>720p (HD)</strong> offers the perfect balance of visual fidelity and file size, making it the best choice for saving mobile data while maintaining great quality on smartphone screens. <strong>360p and 480p (Standard Definition)</strong> are ultra-fast, low-bandwidth options perfect for users on slow cellular networks or for downloading long, multi-hour lectures where visual clarity is less important than the audio content.</p>
+      <p>One of the persistent challenges faced by users attempting to download YouTube videos is server throttling and CAPTCHA blocks. The FastVid platform utilizes advanced residential proxy rotation and API networking to bypass these artificial speed limits, ensuring that your MP4 file is generated and delivered at the maximum speed your personal internet connection can handle. There are no queue times or artificial waiting periods.</p>
+      <div class="tool-tags">
+        <span class="tool-tag">MP4 Converter</span><span class="tool-tag">1080p Video</span><span class="tool-tag">Offline Viewing</span><span class="tool-tag">YouTube Downloader</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ARTICLE 2: YouTube to MP3 -->
+  <div class="tool-section reveal" id="tool-mp3">
+    <div class="tool-card-top">
+      <div class="tool-identity">
+        <div class="tool-emoji">🎵</div>
+        <div class="tool-meta">
+          <h3>YouTube to MP3 Audio <span class="tool-badge badge-free">Free</span></h3>
+          <p>Extract music, podcasts, and lectures to audio files</p>
+        </div>
+      </div>
+      <button class="open-tool-btn" onclick="document.getElementById('dl-tool').scrollIntoView({behavior:'smooth'})"><i class="fas fa-download"></i> Use Tool</button>
+    </div>
+    <div class="tool-article">
+      <h2>YouTube to MP3 Extractor: Crystal Clear Audio for Your Local Library</h2>
+      <p>While video is the primary medium of YouTube, millions of users utilize the platform as a massive, globally accessible library for music, lengthy podcast interviews, motivational speeches, and educational lectures. However, streaming video to listen to audio consumes massive amounts of mobile data and requires the screen to remain on (unless utilizing a paid premium subscription). This is where the <strong>FastVid YouTube to MP3 Extractor</strong> becomes indispensable.</p>
+      <p>The <strong>MP3 (MPEG-1 Audio Layer III)</strong> format is a lossy data compression format that dramatically reduces file sizes while maintaining near-perfect acoustic quality for the human ear. Our audio extraction pipeline directly intercepts the underlying audio stream from the YouTube video (usually formatted as WebM or M4A) and losslessly converts it to universally compatible MP3 format. This ensures the file can be played on everything from modern smartphones to legacy car stereos and dedicated MP3 players.</p>
+      <p>Audio quality is measured in <strong>bitrate (kbps — kilobits per second)</strong>. FastVid Pro allows you to choose your desired bitrate. <strong>320kbps</strong> is the highest standard MP3 quality available, offering "studio-like" acoustic depth that is indistinguishable from CD audio; this is highly recommended for downloading music tracks. <strong>192kbps</strong> is an excellent middle ground. <strong>128kbps</strong> applies heavier compression resulting in tiny file sizes, making it perfect for downloading 3-hour podcast episodes or long audiobooks where vocal clarity is needed but deep musical bass is not.</p>
+      <p>Unlike shady converter websites that inject malware or force you to install browser extensions, FastVid Pro operates entirely server-side. The extraction process strips away the heavy video data track entirely, meaning a 500MB video file is instantly converted into a lightweight 5MB audio file. This file is then securely transmitted directly to your device's native download folder, ready to be added to Spotify Local Files, Apple Music, or your favorite offline audio player.</p>
+      <div class="tool-tags">
+        <span class="tool-tag">MP3 Converter</span><span class="tool-tag">Audio Extraction</span><span class="tool-tag">320kbps</span><span class="tool-tag">Podcasts</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- AD UNIT 2 -->
+  <div class="ad-unit">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9069263337314949" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+  </div>
+
+  <!-- ARTICLE 3: Shorts Downloader -->
+  <div class="tool-section reveal" id="tool-shorts">
+    <div class="tool-card-top">
+      <div class="tool-identity">
+        <div class="tool-emoji">📱</div>
+        <div class="tool-meta">
+          <h3>YouTube Shorts Downloader</h3>
+          <p>Save vertical short-form content directly</p>
+        </div>
+      </div>
+      <button class="open-tool-btn" onclick="document.getElementById('dl-tool').scrollIntoView({behavior:'smooth'})"><i class="fas fa-download"></i> Use Tool</button>
+    </div>
+    <div class="tool-article">
+      <h2>YouTube Shorts Downloader: Capture Viral Vertical Video Content</h2>
+      <p><strong>YouTube Shorts</strong> represents the platform's massive pivot into vertical, short-form, algorithmic video content (videos lasting 60 seconds or less). As content creators, educators, and entertainers flood this new medium, users frequently encounter viral clips, quick recipes, life hacks, and motivational snippets that they want to save permanently or share on other platforms like WhatsApp, Instagram, or TikTok.</p>
+      <p>Standard YouTube downloading tools often struggle with Shorts URLs because the platform routes them through a different URL structure (`youtube.com/shorts/VIDEO_ID` instead of `youtube.com/watch?v=VIDEO_ID`). The FastVid parsing engine is specifically engineered with robust regular expressions to automatically detect, format, and process YouTube Shorts links flawlessly. You do not need to alter the URL; simply copy it directly from the YouTube app and paste it into our tool.</p>
+      <p>One of the primary benefits of using FastVid for downloading Shorts is the preservation of native quality without invasive platform watermarks. Unlike built-in sharing features on various social media platforms that downgrade resolution and slap a bouncing logo across the footage, our tool extracts the raw, unedited source MP4 file directly from Google's servers. This is highly beneficial for video editors, meme creators, and compilation channels who require clean source footage for fair-use transformative content.</p>
+      <p>Since YouTube Shorts are inherently short, the file sizes are incredibly small. Our backend processes these requests in mere milliseconds. Within one or two seconds of clicking the download button, the pristine MP4 file will be resting securely in your device's camera roll or downloads folder, ready for offline viewing or immediate sharing across your personal networks.</p>
+      <div class="tool-tags">
+        <span class="tool-tag">YT Shorts</span><span class="tool-tag">Vertical Video</span><span class="tool-tag">No Watermark</span><span class="tool-tag">Fast Download</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ARTICLE 4: iOS Guide -->
+  <div class="tool-section reveal" id="tool-ios">
+    <div class="tool-card-top">
+      <div class="tool-identity">
+        <div class="tool-emoji">🍎</div>
+        <div class="tool-meta">
+          <h3>How to Download on iPhone/iPad</h3>
+          <p>Step-by-step guide for iOS Safari users</p>
+        </div>
+      </div>
+    </div>
+    <div class="tool-article">
+      <h2>Complete Guide: Downloading YouTube Videos to iPhone and iPad</h2>
+      <p>Historically, Apple's iOS ecosystem strictly locked down the ability to download media files directly from the browser, forcing users to rely on iTunes syncing or complex third-party apps. However, starting with iOS 13, Apple introduced a fully featured download manager directly inside the <strong>Safari browser</strong>, making tools like FastVid Pro incredibly seamless to use on iPhones and iPads.</p>
+      <p>Follow these exact steps to save a YouTube video directly to your iOS device:</p>
+      <p><strong>Step 1: Obtain the Link.</strong> Open the official YouTube app on your iPhone. Navigate to the video or Short you wish to download. Tap the "Share" button (the curved arrow icon) located below the video player, then tap "Copy Link".</p>
+      <p><strong>Step 2: Process the File.</strong> Open the Safari browser and navigate to <em>FastVid Pro</em>. Tap the input box, select "Paste", choose your desired format (MP4 or MP3), and tap the blue "START DOWNLOAD" button. Wait a few seconds for the progress bar to complete and the green download link to appear.</p>
+      <p><strong>Step 3: Safari Download Manager.</strong> Tap the green download link. A small Safari popup will appear asking, <em>"Do you want to download this file?"</em> Tap <strong>Download</strong>. Look at the web address bar at the bottom (or top) of your Safari screen — you will see a small blue arrow icon pointing downwards. This indicates the file is actively saving to your device.</p>
+      <p><strong>Step 4: Access and Save to Camera Roll.</strong> Once the blue arrow finishes loading, tap it and select "Downloads". You will see your newly downloaded MP4 or MP3 file. By default, this file lives in the <strong>Files app</strong> (inside the 'Downloads' folder on iCloud or 'On My iPhone'). If it is an MP4 video and you want it in your main Photos gallery, simply tap the video to open it, tap the iOS Share icon in the bottom left corner, and select <strong>"Save Video"</strong>. It will immediately appear in your iPhone's Camera Roll.</p>
+      <div class="tool-tags">
+        <span class="tool-tag">iOS Safari</span><span class="tool-tag">iPhone Download</span><span class="tool-tag">Files App</span><span class="tool-tag">Camera Roll</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- AD UNIT 3 -->
+  <div class="ad-unit">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9069263337314949" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+  </div>
+
+  <!-- ARTICLE 5: Android Guide -->
+  <div class="tool-section reveal" id="tool-android">
+    <div class="tool-card-top">
+      <div class="tool-identity">
+        <div class="tool-emoji">🤖</div>
+        <div class="tool-meta">
+          <h3>How to Download on Android</h3>
+          <p>Step-by-step guide for Google Chrome on Android</p>
+        </div>
+      </div>
+    </div>
+    <div class="tool-article">
+      <h2>Complete Guide: Downloading YouTube Videos on Android Devices</h2>
+      <p>The Android operating system, developed by Google, has always featured a robust, open file system similar to a desktop computer. This makes downloading, managing, and playing third-party MP4 and MP3 files incredibly straightforward. Whether you are using a Samsung Galaxy, Google Pixel, OnePlus, or Xiaomi device, FastVid Pro works flawlessly inside Google Chrome, Firefox, or Brave browsers.</p>
+      <p>Follow these quick steps to save YouTube media to your Android smartphone or tablet:</p>
+      <p><strong>Step 1: Copy the URL.</strong> Open the YouTube app for Android. Find your video, tap the "Share" button beneath the player, and select the "Copy Link" option. The link is now saved to your Android clipboard.</p>
+      <p><strong>Step 2: Convert via FastVid.</strong> Open your preferred mobile browser (like Google Chrome) and go to FastVid Pro. Long-press on the URL input box and tap "Paste". Select whether you want a video file (MP4) or an audio track (MP3), pick your resolution quality, and press "START DOWNLOAD".</p>
+      <p><strong>Step 3: Native Android Download.</strong> Once our servers finish processing, the green final download button will appear. When you tap it, Android's native download manager will immediately take over. Depending on your Chrome settings, it may ask you where to save the file, or it will automatically begin downloading in the background. You can pull down your Android notification shade to see the live download progress.</p>
+      <p><strong>Step 4: Finding Your File.</strong> Unlike iOS, Android integrates downloaded files directly into your media library. Once the download is complete, an MP4 video will automatically appear in your main <strong>Gallery or Google Photos app</strong> under a folder titled "Downloads". An MP3 file will immediately become playable in your default music player app (like YouTube Music or Samsung Music) or can be located by opening your device's <strong>"My Files" or "File Manager"</strong> application and checking the Downloads folder.</p>
+      <div class="tool-tags">
+        <span class="tool-tag">Android</span><span class="tool-tag">Google Chrome</span><span class="tool-tag">Android Gallery</span><span class="tool-tag">File Manager</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ARTICLE 6: Legal & Ethics -->
+  <div class="tool-section reveal" id="tool-legal">
+    <div class="tool-card-top">
+      <div class="tool-identity">
+        <div class="tool-emoji">⚖️</div>
+        <div class="tool-meta">
+          <h3>Copyright & Fair Use Guidelines</h3>
+          <p>Understanding digital rights and responsible downloading</p>
+        </div>
+      </div>
+    </div>
+    <div class="tool-article">
+      <h2>Understanding Copyright, Fair Use, and Responsible Media Downloading</h2>
+      <p>In the modern digital age, the ability to download and manipulate media is easier than ever. However, it is crucial for all users of FastVid Pro to understand the legal and ethical frameworks surrounding digital copyrights. <strong>Copyright</strong> is a legal right that grants the creator of an original work exclusive rights to its use, distribution, and monetization. When a creator uploads a video to YouTube, they generally retain these rights.</p>
+      <p>FastVid Pro is designed strictly as an infrastructure utility tool. Just as a web browser can be used to view any website, our tool can be used to extract public data. However, the responsibility for how that data is used falls entirely on the individual user. We strictly prohibit the use of our service to pirate copyrighted movies, distribute protected music tracks, or illegally profit from another creator's intellectual property.</p>
+      <p><strong>When is downloading legal and acceptable?</strong> There are several broad categories where downloading YouTube content is legally sound and ethically accepted:</p>
+      <p><strong>1. Creative Commons & Public Domain:</strong> Millions of videos on YouTube are uploaded under Creative Commons (CC BY) licenses, meaning the creator explicitly grants permission for anyone to download, remix, and reuse the footage (provided credit is given). Public domain works, such as historical footage or government archives, are completely free of copyright restrictions.</p>
+      <p><strong>2. Fair Use (Transformative Content):</strong> Under US copyright law (and similar doctrines worldwide like "Fair Dealing" in India and the UK), you are legally permitted to download and use brief excerpts of copyrighted material for purposes such as criticism, commentary, news reporting, teaching, scholarship, or research. This is the legal foundation that allows YouTube reaction channels, video essayists, movie reviewers, and educational creators to download and edit other people's footage.</p>
+      <p><strong>3. Personal Backup:</strong> If you are a content creator, you can use FastVid to safely backup and archive your own channel's content in high quality to your local hard drives.</p>
+      <p>Always respect creators. If you enjoy an independent artist's music, support them on official streaming platforms or purchase their tracks. Use downloading tools responsibly for education, fair use editing, and personal offline convenience.</p>
+      <div class="tool-tags">
+        <span class="tool-tag">Copyright</span><span class="tool-tag">Fair Use</span><span class="tool-tag">Creative Commons</span><span class="tool-tag">Digital Ethics</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- AD UNIT 4 -->
+  <div class="ad-unit">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9069263337314949" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+  </div>
+
+  <!-- FAQ -->
+  <div class="faq-section reveal" id="faq">
+    <h2>Frequently Asked Questions About FastVid Pro</h2>
     
-    window.onload = updateQualityOptions;
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-question">Is FastVid Pro completely free to use? <i class="fas fa-chevron-down"></i></div>
+      <div class="faq-answer"><p>Yes, FastVid Pro is 100% free, now and always. Every tool, including HD video downloading and high-bitrate MP3 extraction, is accessible without any subscription, payment, or registration. We sustain our high-speed server infrastructure entirely through the non-intrusive advertising displayed on the page.</p></div>
+    </div>
+    
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-question">Are there any limits on how many videos I can download? <i class="fas fa-chevron-down"></i></div>
+      <div class="faq-answer"><p>No! There are absolutely zero restrictions on the number of downloads you can perform. You can convert and save as many videos, shorts, and audio files as you want. Our servers are built to handle massive volume, so you can download entire playlists of content one by one without hitting any artificial paywalls.</p></div>
+    </div>
 
-    let progressTimer = null;
-    let currentP = 0;
-    let targetP = 0;
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-question">Do I need to install any software or extensions? <i class="fas fa-chevron-down"></i></div>
+      <div class="faq-answer"><p>Absolutely not. FastVid Pro is a 100% cloud-based web application. Everything runs directly inside your web browser (Chrome, Safari, Firefox, Edge). You never have to install suspicious software, APK files, or browser extensions that might compromise your computer's security.</p></div>
+    </div>
 
-    function startProgressEngine() {
-      clearInterval(progressTimer);
-      currentP = 0;
-      targetP = 15;
-      
-      const pBar = document.getElementById('pBar');
-      const pText = document.getElementById('pText');
-      pBar.style.width = '0%';
-      pText.innerText = '0%';
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-question">Why does the progress bar take a few seconds? <i class="fas fa-chevron-down"></i></div>
+      <div class="faq-answer"><p>While most downloads are nearly instant, extracting high-fidelity 1080p video or combining separate high-quality audio and video streams requires immense server processing power. Our API must fetch the data from Google's servers, multiplex the video and audio tracks together, and generate a clean MP4 file. The progress bar keeps you updated in real-time as our cloud computers render your file.</p></div>
+    </div>
 
-      progressTimer = setInterval(() => {
-        if (currentP < targetP) {
-          currentP += Math.floor(Math.random() * 3) + 1;
-          if (currentP > targetP) currentP = targetP;
-        } else if (currentP < 95 && targetP > 0) {
-          if (Math.random() < 0.1) currentP += 1;
-        }
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-question">Is it safe to download files from FastVid Pro? <i class="fas fa-chevron-down"></i></div>
+      <div class="faq-answer"><p>Yes, safety is our top priority. Our servers simply fetch the raw, unmodified video and audio streams directly from YouTube's CDN. We do not inject viruses, malware, or adware into the downloaded files. Furthermore, because you do not need to create an account, we do not collect or store your personal email, name, or password data.</p></div>
+    </div>
 
-        pBar.style.width = currentP + '%';
-        pText.innerText = currentP + '%';
-      }, 80);
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-question">Can I download private or restricted YouTube videos? <i class="fas fa-chevron-down"></i></div>
+      <div class="faq-answer"><p>No. FastVid Pro can only access publicly available videos. If a video is set to "Private," requires a YouTube Premium login, or is geographically restricted (geo-blocked) in our server's region, our extraction API cannot bypass Google's security protocols to download it.</p></div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-question">Where are the files saved on my computer or phone? <i class="fas fa-chevron-down"></i></div>
+      <div class="faq-answer"><p>On a Windows PC or Mac, files are saved in your default "Downloads" folder (unless you've configured your browser to ask for a location). On Android devices, videos appear in your Gallery under the Downloads folder. On iPhones and iPads, files are saved to the Safari "Downloads" section and can be found in your iOS "Files" app.</p></div>
+    </div>
+  </div>
+
+  <!-- KEYWORD CLOUD -->
+  <div class="keyword-cloud reveal">
+    <h3>POPULAR SEARCH TERMS</h3>
+    <div class="kw-wrap">
+      <span class="kw-tag">Free YouTube Downloader</span><span class="kw-tag">YT to MP4 HD</span>
+      <span class="kw-tag">YouTube MP3 Converter 320kbps</span><span class="kw-tag">Download YouTube Shorts</span>
+      <span class="kw-tag">FastVid Pro Online</span><span class="kw-tag">Save YT Videos Offline</span>
+      <span class="kw-tag">No Watermark Shorts Saver</span><span class="kw-tag">1080p Video Downloader</span>
+      <span class="kw-tag">YouTube to MP4 Mac</span><span class="kw-tag">Download YT Audio Android</span>
+      <span class="kw-tag">Safe Video Converter</span><span class="kw-tag">YouTube Premium Offline Alternative</span>
+    </div>
+  </div>
+
+</div><!-- end .container -->
+
+<!-- ======================== FOOTER ======================== -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>FastVid Pro</h3>
+        <p>The premier cloud-based utility for downloading, converting, and safely extracting online media. Fast, secure, and always 100% free.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Core Tools</h4>
+        <ul>
+          <li><a href="#dl-tool">Main Downloader</a></li>
+          <li><a href="#tool-mp4">MP4 Video Converter</a></li>
+          <li><a href="#tool-mp3">MP3 Audio Extractor</a></li>
+          <li><a href="#tool-shorts">Shorts Downloader</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Help & Guides</h4>
+        <ul>
+          <li><a href="#tool-ios">iOS / iPhone Guide</a></li>
+          <li><a href="#tool-android">Android Guide</a></li>
+          <li><a href="#tool-legal">Copyright Guidelines</a></li>
+          <li><a href="#faq">Frequently Asked Questions</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Contact Support</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 FastVid Pro Network | Not affiliated with Google or YouTube.</p>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">DMCA</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ======================== SCRIPTS ======================== -->
+<script>
+// Mobile Sidebar Logic
+function openSidebar(){document.getElementById('mobileSidebar').classList.add('open');document.getElementById('overlay').classList.add('show')}
+function closeSidebar(){document.getElementById('mobileSidebar').classList.remove('open');document.getElementById('overlay').classList.remove('show')}
+
+// Search Filter Logic
+function filterTools(){
+  const val=(document.getElementById('navSearch')||{value:''}).value.toLowerCase();
+  document.querySelectorAll('.tool-section').forEach(s=>{
+    const title=s.querySelector('h3')?s.querySelector('h3').innerText.toLowerCase():'';
+    const desc=s.querySelector('.tool-article h2')?s.querySelector('.tool-article h2').innerText.toLowerCase():'';
+    s.style.display=(title.includes(val)||desc.includes(val)||val==='')? '':'none';
+  });
+}
+
+// FAQ Accordion Logic
+function toggleFaq(el){
+  const isOpen=el.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+  if(!isOpen)el.classList.add('open');
+}
+
+// Scroll Reveal Observer
+const observer=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('active');observer.unobserve(e.target)}});
+},{threshold:0.07,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// ==========================================
+// RAPIDAPI DOWNLOADER ENGINE
+// ==========================================
+function updateQualityOptions() {
+  const type = document.getElementById('mediaType').value;
+  const qSelect = document.getElementById('qualitySelect');
+  qSelect.innerHTML = ''; 
+  
+  if (type === 'mp4') {
+    const options = [
+      { val: '1080', text: '1080p (Full HD)' },
+      { val: '720', text: '720p (HD)' },
+      { val: '480', text: '480p (Standard)' },
+      { val: '360', text: '360p (Fastest)' }
+    ];
+    options.forEach(opt => qSelect.options.add(new Option(opt.text, opt.val)));
+    qSelect.value = '720'; 
+  } else {
+    const options = [
+      { val: '320', text: '320 kbps (Studio Quality)' },
+      { val: '192', text: '192 kbps (High)' },
+      { val: '128', text: '128 kbps (Standard)' }
+    ];
+    options.forEach(opt => qSelect.options.add(new Option(opt.text, opt.val)));
+    qSelect.value = '192'; 
+  }
+}
+
+window.onload = updateQualityOptions;
+
+let progressTimer = null;
+let currentP = 0;
+let targetP = 0;
+
+function startProgressEngine() {
+  clearInterval(progressTimer);
+  currentP = 0;
+  targetP = 15;
+  
+  const pBar = document.getElementById('pBar');
+  const pText = document.getElementById('pText');
+  pBar.style.width = '0%';
+  pText.innerText = '0%';
+
+  progressTimer = setInterval(() => {
+    if (currentP < targetP) {
+      currentP += Math.floor(Math.random() * 3) + 1;
+      if (currentP > targetP) currentP = targetP;
+    } else if (currentP < 95 && targetP > 0) {
+      if (Math.random() < 0.1) currentP += 1;
+    }
+    pBar.style.width = currentP + '%';
+    pText.innerText = currentP + '%';
+  }, 80);
+}
+
+function stopProgressEngine() {
+  clearInterval(progressTimer);
+}
+
+function extractVideoID(url) {
+  if (!url) return null;
+  const regExp = /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|shorts\/|watch\?.+&v=))([\w-]{11})/;
+  const match = url.match(regExp);
+  return match ? match[1] : null;
+}
+
+const apiKey = '436b34b772mshf51742179240f03p1cdd04jsnac029a1c4428';
+const apiHost = 'youtube-mp4-mp3-downloader.p.rapidapi.com';
+
+function triggerDirectDownload(fileUrl, mediaType) {
+  const ext = mediaType === 'mp3' ? 'mp3' : 'mp4';
+  const a = document.createElement('a');
+  a.href = fileUrl;
+  a.download = `FastVid_Download.${ext}`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+function finishDownload(finalUrl, mediaType, submitBtn, statusDiv) {
+  targetP = 100;
+  document.getElementById('progressLabel').innerText = 'File Ready! Executing Download...';
+  
+  setTimeout(() => {
+    stopProgressEngine();
+    document.getElementById('progressWrapper').style.display = 'none';
+    
+    statusDiv.innerHTML = `
+      <a href="${finalUrl}" class="dl-download-link" target="_blank" rel="noopener noreferrer">
+        <i class="fas fa-download"></i> Click Here if Download Doesn't Start
+      </a>
+    `;
+    triggerDirectDownload(finalUrl, mediaType);
+    submitBtn.disabled = false;
+    submitBtn.innerText = "START NEW DOWNLOAD";
+  }, 800);
+}
+
+async function checkProgress(progressId, mediaType, statusDiv, submitBtn) {
+  const progressUrl = `https://${apiHost}/api/v1/progress?id=${progressId}`;
+
+  try {
+    const response = await fetch(progressUrl, {
+      headers: { 'x-rapidapi-key': apiKey, 'x-rapidapi-host': apiHost }
+    });
+    const data = await response.json();
+
+    if (data.downloadUrl || data.url || data.link) {
+      const finalUrl = data.downloadUrl || data.url || data.link;
+      finishDownload(finalUrl, mediaType, submitBtn, statusDiv);
+      return;
     }
 
-    function stopProgressEngine() {
-      clearInterval(progressTimer);
+    if (data.progress !== undefined && data.progress < 100) {
+      targetP = Math.round(data.progress);
+      document.getElementById('progressLabel').innerText = 'Rendering Media on Cloud Servers...';
+      setTimeout(() => checkProgress(progressId, mediaType, statusDiv, submitBtn), 2000);
+    } else if (data.success === 0 || data.error) {
+      stopProgressEngine();
+      document.getElementById('progressWrapper').style.display = 'none';
+      statusDiv.innerHTML = `<span style="color: #ef4444; font-weight:bold;">Error: ${data.message || 'Conversion failed.'}</span>`;
+      submitBtn.disabled = false;
+      submitBtn.innerText = "TRY AGAIN";
+    } else {
+      document.getElementById('progressLabel').innerText = 'Finalizing stream extraction...';
+      setTimeout(() => checkProgress(progressId, mediaType, statusDiv, submitBtn), 2000);
+    }
+  } catch (err) {
+    stopProgressEngine();
+    document.getElementById('progressWrapper').style.display = 'none';
+    statusDiv.innerHTML = '<span style="color: #ef4444; font-weight:bold;">Error checking progress. Please try again.</span>';
+    submitBtn.disabled = false;
+    submitBtn.innerText = "TRY AGAIN";
+  }
+}
+
+async function startDownload() {
+  const urlInput = document.getElementById('videoUrl').value.trim();
+  const mediaType = document.getElementById('mediaType').value;
+  const qualityValue = document.getElementById('qualitySelect').value;
+  const statusDiv = document.getElementById('status');
+  const submitBtn = document.getElementById('submitBtn');
+
+  if (!urlInput) {
+    statusDiv.innerHTML = '<span style="color: #ef4444; font-weight:bold;"><i class="fas fa-exclamation-circle"></i> Please paste a valid YouTube link.</span>';
+    return;
+  }
+
+  const videoId = extractVideoID(urlInput);
+  if (!videoId) {
+    statusDiv.innerHTML = '<span style="color: #ef4444; font-weight:bold;"><i class="fas fa-exclamation-circle"></i> Invalid YouTube link format. Example: https://youtu.be/...</span>';
+    return;
+  }
+
+  statusDiv.innerHTML = '';
+  submitBtn.disabled = true;
+  submitBtn.innerText = "PROCESSING...";
+  document.getElementById('progressWrapper').style.display = 'block';
+  document.getElementById('progressLabel').innerText = 'Contacting Server API...';
+  
+  startProgressEngine();
+
+  let apiFormat = mediaType === 'mp4' ? qualityValue : 'mp3';
+  let apiAudioQuality = mediaType === 'mp4' ? '128' : qualityValue;
+  const initialUrl = `https://${apiHost}/api/v1/download?format=${apiFormat}&id=${videoId}&audioQuality=${apiAudioQuality}&addInfo=false&allowExtendedDuration=false`;
+
+  try {
+    const response = await fetch(initialUrl, {
+      method: 'GET',
+      headers: { 'x-rapidapi-key': apiKey, 'x-rapidapi-host': apiHost }
+    });
+    const data = await response.json();
+
+    if (data.downloadUrl || data.url || data.link) {
+      const finalUrl = data.downloadUrl || data.url || data.link;
+      finishDownload(finalUrl, mediaType, submitBtn, statusDiv);
+      return;
     }
 
-    function extractVideoID(url) {
-      if (!url) return null;
-      const regExp = /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|shorts\/|watch\?.+&v=))([\w-]{11})/;
-      const match = url.match(regExp);
-      return match ? match[1] : null;
+    const progressId = data.id || data.progressId || data.taskId;
+    if (progressId) {
+      targetP = 30;
+      checkProgress(progressId, mediaType, statusDiv, submitBtn);
+    } else if (data.message) {
+      stopProgressEngine();
+      document.getElementById('progressWrapper').style.display = 'none';
+      statusDiv.innerHTML = `<span style="color: #ef4444; font-weight:bold;"><i class="fas fa-times-circle"></i> ${data.message}</span>`;
+      submitBtn.disabled = false;
+      submitBtn.innerText = "TRY AGAIN";
+    } else {
+      stopProgressEngine();
+      document.getElementById('progressWrapper').style.display = 'none';
+      statusDiv.innerHTML = `<span style="color: #ef4444; font-weight:bold;"><i class="fas fa-times-circle"></i> Could not start download. Video may be private.</span>`;
+      submitBtn.disabled = false;
+      submitBtn.innerText = "TRY AGAIN";
     }
+  } catch (error) {
+    stopProgressEngine();
+    document.getElementById('progressWrapper').style.display = 'none';
+    statusDiv.innerHTML = '<span style="color: #ef4444; font-weight:bold;"><i class="fas fa-wifi"></i> Network connection error. Check your internet.</span>';
+    submitBtn.disabled = false;
+    submitBtn.innerText = "TRY AGAIN";
+  }
+}
+</script>
 
-    const apiKey = '436b34b772mshf51742179240f03p1cdd04jsnac029a1c4428';
-    const apiHost = 'youtube-mp4-mp3-downloader.p.rapidapi.com';
+<!-- Firebase Auth Implementation -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
 
-    function triggerDirectDownload(fileUrl, mediaType) {
-      const ext = mediaType === 'mp3' ? 'mp3' : 'mp4';
-      const a = document.createElement('a');
-      a.href = fileUrl;
-      a.download = `download.${ext}`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    }
+const firebaseConfig = {
+  apiKey: "AIzaSyCPm8-ZNZQcMTAql6m8VVlB3WHgdHzdGv8",
+  authDomain: "mathhub-pro.firebaseapp.com",
+  projectId: "mathhub-pro",
+  storageBucket: "mathhub-pro.firebasestorage.app",
+  messagingSenderId: "861286840133",
+  appId: "1:861286840133:web:06d346ca175827b6c9302c",
+  measurementId: "G-375HJSRW1F"
+};
 
-    function finishDownload(finalUrl, mediaType, submitBtn, statusDiv) {
-      targetP = 100;
-      document.getElementById('progressLabel').innerText = 'File Ready!';
-      
-      setTimeout(() => {
-        stopProgressEngine();
-        document.getElementById('progressWrapper').style.display = 'none';
-        
-        statusDiv.innerHTML = `
-          <a href="${finalUrl}" class="download-btn" target="_blank" rel="noopener noreferrer">
-            ⬇️ Click to Download ${mediaType === 'mp3' ? 'MP3' : 'MP4'}
-          </a>
-        `;
-        triggerDirectDownload(finalUrl, mediaType);
-        submitBtn.disabled = false;
-      }, 600);
-    }
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
-    async function checkProgress(progressId, mediaType, statusDiv, submitBtn) {
-      const progressUrl = `https://${apiHost}/api/v1/progress?id=${progressId}`;
+onAuthStateChanged(auth, (user) => {
+  const navAuthLink = document.getElementById('nav-auth-link');
+  const userProfileArea = document.getElementById('user-profile');
+  const userNameSpan = document.getElementById('user-name');
+  const userLogoImg = document.getElementById('user-logo');
 
-      try {
-        const response = await fetch(progressUrl, {
-          headers: { 'x-rapidapi-key': apiKey, 'x-rapidapi-host': apiHost }
-        });
+  if (user) {
+    document.getElementById('auth-links').style.display = 'none';
+    document.getElementById('user-links').style.display = 'block';
+    document.getElementById('user-display').innerText = user.displayName || user.email.split('@')[0].toUpperCase();
+    
+    if (navAuthLink) navAuthLink.style.display = 'none';
+    if (userProfileArea) userProfileArea.style.display = 'flex';
+    
+    if (userNameSpan) userNameSpan.innerText = user.displayName || "User";
+    if (userLogoImg) userLogoImg.src = user.photoURL || "https://www.w3schools.com/howto/img_avatar.png";
+    
+  } else {
+    document.getElementById('auth-links').style.display = 'block';
+    document.getElementById('user-links').style.display = 'none';
+    
+    if (navAuthLink) navAuthLink.style.display = 'inline-block';
+    if (userProfileArea) userProfileArea.style.display = 'none';
+  }
+});
 
-        const data = await response.json();
-
-        if (data.downloadUrl || data.url || data.link) {
-          const finalUrl = data.downloadUrl || data.url || data.link;
-          finishDownload(finalUrl, mediaType, submitBtn, statusDiv);
-          return;
-        }
-
-        if (data.progress !== undefined && data.progress < 100) {
-          targetP = Math.round(data.progress);
-          document.getElementById('progressLabel').innerText = 'Converting file...';
-          setTimeout(() => checkProgress(progressId, mediaType, statusDiv, submitBtn), 2000);
-        } else if (data.success === 0 || data.error) {
-          stopProgressEngine();
-          document.getElementById('progressWrapper').style.display = 'none';
-          statusDiv.innerHTML = `<span style="color: #ef4444;">Error: ${data.message || 'Conversion failed.'}</span>`;
-          submitBtn.disabled = false;
-        } else {
-          document.getElementById('progressLabel').innerText = 'Finalizing stream...';
-          setTimeout(() => checkProgress(progressId, mediaType, statusDiv, submitBtn), 2000);
-        }
-      } catch (err) {
-        stopProgressEngine();
-        document.getElementById('progressWrapper').style.display = 'none';
-        statusDiv.innerHTML = '<span style="color: #ef4444;">Error checking progress.</span>';
-        submitBtn.disabled = false;
-      }
-    }
-
-    async function startDownload() {
-      const urlInput = document.getElementById('videoUrl').value.trim();
-      const mediaType = document.getElementById('mediaType').value;
-      const qualityValue = document.getElementById('qualitySelect').value;
-      const statusDiv = document.getElementById('status');
-      const submitBtn = document.getElementById('submitBtn');
-
-      if (!urlInput) {
-        statusDiv.innerHTML = '<span style="color: #ef4444;">Please paste a YouTube link.</span>';
-        return;
-      }
-
-      const videoId = extractVideoID(urlInput);
-      if (!videoId) {
-        statusDiv.innerHTML = '<span style="color: #ef4444;">Invalid YouTube link.</span>';
-        return;
-      }
-
-      statusDiv.innerHTML = '';
-      submitBtn.disabled = true;
-      document.getElementById('progressWrapper').style.display = 'block';
-      document.getElementById('progressLabel').innerText = 'Contacting server...';
-      
-      startProgressEngine();
-
-      let apiFormat = mediaType === 'mp4' ? qualityValue : 'mp3';
-      let apiAudioQuality = mediaType === 'mp4' ? '128' : qualityValue;
-
-      const initialUrl = `https://${apiHost}/api/v1/download?format=${apiFormat}&id=${videoId}&audioQuality=${apiAudioQuality}&addInfo=false&allowExtendedDuration=false`;
-
-      try {
-        const response = await fetch(initialUrl, {
-          method: 'GET',
-          headers: { 'x-rapidapi-key': apiKey, 'x-rapidapi-host': apiHost }
-        });
-
-        const data = await response.json();
-
-        if (data.downloadUrl || data.url || data.link) {
-          const finalUrl = data.downloadUrl || data.url || data.link;
-          finishDownload(finalUrl, mediaType, submitBtn, statusDiv);
-          return;
-        }
-
-        const progressId = data.id || data.progressId || data.taskId;
-        if (progressId) {
-          targetP = 30;
-          checkProgress(progressId, mediaType, statusDiv, submitBtn);
-        } else if (data.message) {
-          stopProgressEngine();
-          document.getElementById('progressWrapper').style.display = 'none';
-          statusDiv.innerHTML = `<span style="color: #ef4444;">${data.message}</span>`;
-          submitBtn.disabled = false;
-        } else {
-          stopProgressEngine();
-          document.getElementById('progressWrapper').style.display = 'none';
-          statusDiv.innerHTML = `<span style="color: #ef4444;">Could not start download.</span>`;
-          submitBtn.disabled = false;
-        }
-      } catch (error) {
-        stopProgressEngine();
-        document.getElementById('progressWrapper').style.display = 'none';
-        statusDiv.innerHTML = '<span style="color: #ef4444;">Network connection error.</span>';
-        submitBtn.disabled = false;
-      }
-    }
-  </script>
-
+window.logout = () => {
+  signOut(auth).then(() => {
+    window.location.reload();
+  }).catch(e => console.error("Logout Error:", e));
+};
+</script>
 </body>
 </html>
