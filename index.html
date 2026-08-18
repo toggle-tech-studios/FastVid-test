@@ -990,8 +990,8 @@ function finishDownload(finalUrl, mediaType, submitBtn, statusDiv) {
     
     statusDiv.innerHTML = `
       <a href="${finalUrl}" class="dl-download-link" target="_blank" rel="noopener noreferrer">
-        <i class="fas fa-download"></i> Click Here if Download Doesn't Start
-      </a>
+        <i class="fas fa-download"></i>Wait For A Second As Download Starts. 
+      (Click Here If Download Doesn't Start)</a>
     `;
     triggerDirectDownload(finalUrl, mediaType);
     submitBtn.disabled = false;
